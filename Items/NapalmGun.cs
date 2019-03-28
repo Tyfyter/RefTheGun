@@ -43,7 +43,8 @@ namespace RefTheGun.Items
 			item.UseSound = useSound;
 			item.autoReuse = false;
 			MaxAmmo = 6;
-			BloomPerShot = 0f;
+			BloomPerShot = 0.1f;
+			SpreadLossSpeed = 0.1f;
 			ReloadTimeMax = 60;
 			TrackHitEnemies = true;
 			storefiredshots = true;

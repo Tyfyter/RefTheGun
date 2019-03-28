@@ -28,6 +28,9 @@ namespace RefTheGun.Items
 		public override void SetDefaults()
 		{
             item.CloneDefaults(ItemID.GolemTrophy);
+            item.consumable = false;
+            item.createTile = 0;
+            item.placeStyle = 0;
 			item.damage = 60;
 			item.magic = true;
 			item.knockBack = 6;

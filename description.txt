@@ -1,11 +1,12 @@
 You can probably guess what game this is a reference to from the title.
-That's right, mostly dark souls...
+That's right, whatever I felt like referencing that could benefit from the mechanics I programmed...
 Enter the Gungeon is a pretty cool game though, you should check it out!
 No, this was not sponsored.
 
 Changelog:
 0.5:
 Note to self: you haven't released this one yet, and you might as well just move this line to the next version. AND ACTUALLY PAY ATTENTION TO THIS THIS TIME.
+Finally actually added passive items.
 buffed and renamed old hero's bow.
 added hero's bow.
 fixed hex daggers visual glitch when you have a multishot boost.

@@ -35,6 +35,7 @@ namespace RefTheGun.Items
         public bool reloadwhenfull = false;
         public static float reloadmult = basereloadspeed;
         protected bool instantreload = false;
+        public virtual bool isGun => true;
 
         //protected int ReloadTime = 0;
         public override bool CloneNewInstances{

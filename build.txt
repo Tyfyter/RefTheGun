@@ -4,4 +4,4 @@ homepage = https://sites.google.com/view/tyfyterpoorlymoddingterraria/home
 displayName = Reference the Gungeon
 languageVersion = 6
 includeSource = true
-buildIgnore = .vs/, UI/, bin/
+buildIgnore = .vs/, bin/

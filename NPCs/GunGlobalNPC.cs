@@ -12,6 +12,36 @@ namespace RefTheGun.NPCs
 	{
 		public override bool InstancePerEntity => true;
 		public float dmgmult = 1;
+		/*
+		0:
+		multiplier
+
+		1:
+		duration
+
+		2:
+		human readable:
+		1: single use
+		2: type or id
+		4: time based
+		stylized:
+		0 0 0 0
+		1 2 4 8
+		s t t n
+		i y i o
+		n p m t
+		g e e h
+		l     i
+		e o b n
+		  r a g
+		u   s  
+		s i e y
+		e d d e
+		      t
+		
+		3:
+		type/id (see bit 2 of 2)
+		*/
         public List<float[]> DMGBuffs = new List<float[]>{};
         public override void AI(NPC npc){
 			if(npc.HasBuff(BuffID.Frozen))npc.velocity = new Vector2();

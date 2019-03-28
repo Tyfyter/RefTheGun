@@ -13,15 +13,20 @@ using System.Reflection;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using RefTheGun.Projectiles;
+using RefTheGun.UI;
+using RefTheGun.Items.Passives;
 
 namespace RefTheGun.Items
 {
 	public class GunItemBelt : ModItem
 	{
         public override bool CloneNewInstances => true;
-        public List<int> passives = new List<int>(){13};
+        public List<Item> passives = new List<Item>(){};
         public List<int> actives = new List<int>(){};
         public int active = 0;
+        int timesinceright = 0;
+        public int pcount = 0;
+        public static int total = 0;
 		public override void SetStaticDefaults(){
 			DisplayName.SetDefault("Gungeon bandoleer");
 			Tooltip.SetDefault(@"Great for storing everything you need... except weapons... and ammo...");
@@ -40,7 +45,24 @@ namespace RefTheGun.Items
             item.uniqueStack = true;
 		}
         public override void UpdateInventory(Player player){
-            foreach (int i in passives)Passivate(i);
+            if(pcount!=passives.Count){
+                Main.NewText(pcount+"!="+passives.Count);
+                pcount=passives.Count;
+            }
+            foreach (Item i in passives)if(i!=null)if(!i.IsAir)((PassiveBase)i.modItem).Apply(player);
+            if(timesinceright>0){
+                timesinceright--;
+            }
+        }
+        public override bool CanRightClick(){
+            if(timesinceright<=0){
+                Main.NewText(passives.Count);
+                RefTheGun.mod.gunItemUI = new GunItemsUI{item = item};
+                RefTheGun.mod.gunItemUI.Activate();
+                RefTheGun.mod.UI.SetState(RefTheGun.mod.gunItemUI);
+            }
+            timesinceright=7;
+            return false;
         }
         public override bool UseItem(Player player){
             if(actives.Count>0)Activate(actives[active]);
@@ -101,7 +123,7 @@ namespace RefTheGun.Items
             }
         }
         public bool hasPassive(int type){
-            for (int i = 0; i < passives.Count; i++)if(passives[i]==type)return true;
+            //for (int i = 0; i < passives.Count; i++)if(passives[i]==type)return true;
             return false;
         }
         static public void ActivatePassive(Projectile projectile, NPC target, int type){

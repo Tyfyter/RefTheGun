@@ -1,4 +1,6 @@
 
-.vs/RefTheGun/v15/.suo
+references/*
+bin/*
+.vs/*
 *.lock
 *.ide

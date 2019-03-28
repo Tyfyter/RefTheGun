@@ -6,13 +6,15 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using System;
+using System.Collections.Generic;
 
 namespace RefTheGun
 {
 	class RefTheGun : Mod
 	{
-        internal static Mod mod;
-		internal AmmoDisplay ammoUI;
+        internal static RefTheGun mod;
+		internal UserInterface UI;
+		internal GunItemsUI gunItemUI;
 		//string[] ammotexts = new string[2]{"∞"};
 		public RefTheGun()
 		{
@@ -32,6 +34,9 @@ namespace RefTheGun
                 AutoloadGores = true,
                 AutoloadSounds = true
             };
+			if (!Main.dedServ){
+				UI = new UserInterface();
+			}
         }
 		public override void AddRecipeGroups()
 		{
@@ -55,6 +60,26 @@ namespace RefTheGun
 			if(modPlayer.magsize!=0)Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], (modPlayer.magsize > 0 ? modPlayer.roundsinmag+"/"+modPlayer.magsize : (modPlayer.magsize == 0 ? "∞" : (modPlayer.magsize == -1 ? modPlayer.roundsinmag+"" : ""))), Main.screenWidth*0.90f, Main.screenHeight*0.85f, Color.White, Color.Black, new Vector2(0.3f), 1);
 			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], modPlayer.guninfo, Main.screenWidth*0.90f, Main.screenHeight*0.90f, Color.White, Color.Black, new Vector2(0.3f), 0.8f);
 			modPlayer.guninfo="";
+		}
+		public override void UpdateUI(GameTime gameTime) {
+            if(RefTheGun.mod.UI.CurrentState!=null&&!Main.playerInventory){
+				UI.SetState(null);
+			}
+			UI?.Update(gameTime);
+		}
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
+			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+			if (inventoryIndex != -1) {
+				layers.Insert(inventoryIndex + 1, new LegacyGameInterfaceLayer(
+					"RefTheGun: TheOnlyRealUIInTheMod",
+					delegate {
+						// If the current UIState of the UserInterface is null, nothing will draw. We don't need to track a separate .visible value.
+						UI.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+			}
 		}
 	}
 	public static class RefTheExtensions{
