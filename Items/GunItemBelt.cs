@@ -26,7 +26,7 @@ namespace RefTheGun.Items
         public int active = 0;
         int timesinceright = 0;
         public int pcount = 0;
-        public static int total = 0;
+        public static int searchtype = 0;
 		public override void SetStaticDefaults(){
 			DisplayName.SetDefault("Gungeon bandoleer");
 			Tooltip.SetDefault(@"Great for storing everything you need... except weapons... and ammo...");
@@ -35,34 +35,59 @@ namespace RefTheGun.Items
             item.CloneDefaults(ItemID.GolemTrophy);
             item.createTile = 0;
             item.createWall = 0;
-            item.placeStyle = 0;
+            item.placeStyle = -1;
             item.useStyle = 0;
             item.consumable = false;
             item.ranged = true;
 			item.value = 35000;
             item.accessory = false;
             item.useStyle = 5;
+            item.useAnimation = 20;
+            item.useTime = 20;
             item.uniqueStack = true;
 		}
         public override void UpdateInventory(Player player){
+            /*
             if(pcount!=passives.Count){
                 Main.NewText(pcount+"!="+passives.Count);
                 pcount=passives.Count;
+            }//*/
+            foreach (Item i in passives)if(i!=null)if(!i.IsAir)if(i.modItem.mod!=ModLoader.GetMod("ModLoader")){
+                try{
+                    ((PassiveBase)i.modItem).Apply(player);
+                }catch (Exception){}
+            }else{
+                i.TurnToAir();
             }
-            foreach (Item i in passives)if(i!=null)if(!i.IsAir)((PassiveBase)i.modItem).Apply(player);
             if(timesinceright>0){
                 timesinceright--;
             }
         }
+        public override TagCompound Save(){
+            TagCompound o = new TagCompound(){{"passives",passives}};
+            return o;
+        }
+        public override void Load(TagCompound tagCompound){
+            if(tagCompound.HasTag("passives")){
+                passives = tagCompound.Get<List<Item>>("passives");
+            }
+        }
         public override bool CanRightClick(){
             if(timesinceright<=0){
-                Main.NewText(passives.Count);
-                RefTheGun.mod.gunItemUI = new GunItemsUI{item = item};
+                //Main.NewText(passives.Count);
+                RefTheGun.mod.gunItemUI = new GunItemsUI();
                 RefTheGun.mod.gunItemUI.Activate();
                 RefTheGun.mod.UI.SetState(RefTheGun.mod.gunItemUI);
             }
             timesinceright=7;
             return false;
+        }
+        public bool HasItem(int type){
+            searchtype = type;
+            return passives.Exists(hasitem);
+        }
+        bool hasitem(Item item){
+            return item.type==searchtype;
         }
         public override bool UseItem(Player player){
             if(actives.Count>0)Activate(actives[active]);
@@ -122,14 +147,16 @@ namespace RefTheGun.Items
                 break;
             }
         }
-        public bool hasPassive(int type){
-            //for (int i = 0; i < passives.Count; i++)if(passives[i]==type)return true;
-            return false;
-        }
         static public void ActivatePassive(Projectile projectile, NPC target, int type){
             switch (type){
-                case 1://Irradiated Lead
+                case 1://Poison
                 target.AddBuff(BuffID.Poisoned, 600);
+                break;
+                case 2://Ice
+                target.AddBuff(BuffID.Frozen, 600);
+                break;
+                case 3://Fire
+                target.AddBuff(BuffID.OnFire, 600);
                 break;
                 default:
                 break;

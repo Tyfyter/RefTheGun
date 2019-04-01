@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using RefTheGun.Classes;
 using RefTheGun.Items;
 using Terraria;
 using Terraria.ID;
@@ -43,6 +44,7 @@ namespace RefTheGun.NPCs
 		type/id (see bit 2 of 2)
 		*/
         public List<float[]> DMGBuffs = new List<float[]>{};
+		public List<Buff> Buffs = new List<Buff>{};
         public override void AI(NPC npc){
 			if(npc.HasBuff(BuffID.Frozen))npc.velocity = new Vector2();
             for(int i = 0; i<DMGBuffs.Count; i++){
@@ -52,6 +54,19 @@ namespace RefTheGun.NPCs
                     DMGBuffs.RemoveAt(i);
                 }
             }
+            Buffs.RemoveAll(Buff.GC);
+			for(int i = 0; i<Buffs.Count; i++){
+				Buffs[i].Update(npc);
+            }
+        }
+        public override bool PreAI(NPC npc){
+			if(npc.HasBuff(BuffID.Frozen))npc.velocity = new Vector2();
+			bool a = true;
+            Buffs.RemoveAll(Buff.GC);
+			if(Buffs.Count>0)for(int i = 0; i<Buffs.Count; i++){
+				a = a&&Buffs[i].PreUpdate(npc);
+            }
+			return a;
         }
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit){
 			damage = (int)(damage*dmgmult);
@@ -104,6 +119,11 @@ namespace RefTheGun.NPCs
 					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), mod.ItemType<GolemHeart>());
 				}
 			}
+			for(int i = 0; i<Buffs.Count; i++){
+				Buffs[i].OnDeath(npc);
+            }
+			Buffs = new List<Buff>();
 		}
+		public static void AddBuff(Buff buff){buff.npc.GetGlobalNPC<GunGlobalNPC>().Buffs.Add(buff);}
 	}
 }

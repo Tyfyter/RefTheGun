@@ -10,11 +10,11 @@ using System.Collections.Generic;
 
 namespace RefTheGun
 {
-	class RefTheGun : Mod
+	public class RefTheGun : Mod
 	{
-        internal static RefTheGun mod;
+        public static RefTheGun mod;
 		internal UserInterface UI;
-		internal GunItemsUI gunItemUI;
+		public GunItemsUI gunItemUI;
 		//string[] ammotexts = new string[2]{"∞"};
 		public RefTheGun()
 		{
@@ -38,7 +38,8 @@ namespace RefTheGun
 				UI = new UserInterface();
 			}
         }
-		public override void AddRecipeGroups()
+
+        public override void AddRecipeGroups()
 		{
 			RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + " Evil Bars", new int[]
 			{

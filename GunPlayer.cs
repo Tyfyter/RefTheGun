@@ -11,7 +11,7 @@ using RefTheGun.Classes;
 using Terraria.ModLoader.IO;
 
 namespace RefTheGun {
-    internal class GunPlayer : ModPlayer {
+    public class GunPlayer : ModPlayer {
         int hotslot = 0;
         public int reloaddelay = 0;
         public bool Reloading = false;
@@ -24,6 +24,8 @@ namespace RefTheGun {
         public bool Heresy = false;
         public bool Chairesy = false;
         public float bulletPoisonChance = 0;
+        public float bulletFreezeChance = 0;
+        public float bulletBurnChance = 0;
         public bool bullet20Slow = false;
         public float multishotmult = 1;
 
@@ -40,6 +42,8 @@ namespace RefTheGun {
             reloaddelay = Math.Max(reloaddelay-1, 0);
             MagMultiply = 1;
             bulletPoisonChance = 0;
+            bulletFreezeChance = 0;
+            bulletBurnChance = 0;
             bullet20Slow = false;
             if(channelsword<=0)Heresy = false;
             if(channelsword<=0)Chairesy = false;
@@ -91,6 +95,19 @@ namespace RefTheGun {
                     }
                 }
             }
+        }
+        public Item GetBandoleer(){
+            if(GetBandoleerIndex()>=0)return player.inventory[GetBandoleerIndex()];
+            return null;
+        }
+        public int GetBandoleerIndex(){
+            for (int i = 0; i < player.inventory.Length; i++){
+                if(player.inventory[i].type==mod.ItemType<GunItemBelt>())return i;
+            }
+            return -1;
+        }
+        public static explicit operator GunPlayer(Player player){
+            return player.GetModPlayer<GunPlayer>();
         }
     }
 }

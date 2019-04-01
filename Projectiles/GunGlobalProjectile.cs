@@ -31,6 +31,7 @@ namespace RefTheGun.Projectiles
         public Color GlowColor = new Color();
         public int? effectreqs = null;
         public List<int> passives = new List<int>(){};
+        public bool nullprecull = false;
         public static void SetDefaults2(ref Projectile projectile){
             if(projectile.Name=="Blazing Chakram"){
                 projectile.GetGlobalProjectile<GunGlobalProjectile>(RefTheGun.mod).aioverflow=new List<float?>{};
@@ -143,7 +144,11 @@ namespace RefTheGun.Projectiles
                 }
             }
         }
-        public override bool PreDraw(Projectile projectile, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor){
+        public override bool PreKill(Projectile projectile, int timeLeft){
+            if(nullprecull)projectile.type=0;
+            return true;
+        }
+        public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor){
             if(OverrideColor){
                 lightColor = Color;
             }

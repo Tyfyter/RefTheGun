@@ -12,7 +12,7 @@ namespace RefTheGun.UI
 	// ItemSlot isn't very modder friendly and operates based on a "Context" number that dictates how the slot behaves when left, right, or shift clicked and the background used when drawn. 
 	// If you want more control, you might need to write your own UIElement.
 	// See ExamplePersonUI for usage and use the Awesomify chat option of Example Person to see in action.
-	internal class VanillaItemSlotWrapper : UIElement
+	public class VanillaItemSlotWrapper : UIElement
 	{
 		internal Item Item;
 		private readonly int _context;

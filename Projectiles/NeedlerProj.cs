@@ -72,7 +72,7 @@ namespace RefTheGun.Projectiles
                             needles.Add(p.whoAmI);
                             continue;
                         }
-                        if(tileembedded&&(p.Center-projectile.Center).Length()<24){
+                        if(tileembedded&&(p.Center-projectile.Center).Length()<12){
                             needles.Add(p.whoAmI);
                             continue;
                         }

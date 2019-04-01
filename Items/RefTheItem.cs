@@ -36,7 +36,7 @@ namespace RefTheGun.Items
         public static float reloadmult = basereloadspeed;
         protected bool instantreload = false;
         public virtual bool isGun => true;
-
+        public virtual bool ammoPerMult(int i){return false;}
         //protected int ReloadTime = 0;
         public override bool CloneNewInstances{
 			get { return true; }
@@ -96,7 +96,7 @@ namespace RefTheGun.Items
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
             if((player.altFunctionUse == 2 || modPlayer.Reloading) && !specialreloadproj)return false;
-            if(Multishot*modPlayer.multishotmult==1){
+            if((ammoPerMult(0)?Math.Min(Multishot,Ammo):Multishot)*modPlayer.multishotmult==1){
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(Main.rand.NextFloat(0, Spread)/36), type, damage, knockBack, item.owner);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
@@ -105,6 +105,18 @@ namespace RefTheGun.Items
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(1);
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkGreen*0.1f;
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.DarkGreen;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
+                }
+                if(Main.rand.NextFloat(0,1)<=modPlayer.bulletFreezeChance){
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(2);
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.Aqua*0.1f;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.Aqua;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
+                }
+                if(Main.rand.NextFloat(0,1)<=modPlayer.bulletBurnChance){
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(3);
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkOrange*0.1f;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.DarkOrange;
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
                 }
                 if(storefiredshots){
@@ -118,6 +130,7 @@ namespace RefTheGun.Items
                 if(player.altFunctionUse != 2&&MaxAmmo>0){
                     Ammo--;
                     modPlayer.roundsinmag = Ammo;
+                    if(instantreload&&Ammo<=0)Reload();
                 }
                 PostShoot(proj);
             }else{
@@ -128,12 +141,24 @@ namespace RefTheGun.Items
                     Main.projectile[proj].friendly = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 3;
-                    if(Main.rand.NextFloat(0,10)<=modPlayer.bulletPoisonChance){
-                        Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(1);
-                        Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkGreen*0.1f;
-                        Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.DarkGreen;
-                        Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
-                    }
+                if(Main.rand.NextFloat(0,1)<=modPlayer.bulletPoisonChance){
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(1);
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkGreen*0.1f;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.DarkGreen;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
+                }
+                if(Main.rand.NextFloat(0,1)<=modPlayer.bulletFreezeChance){
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(2);
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.Aqua*0.1f;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.Aqua;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
+                }
+                if(Main.rand.NextFloat(0,1)<=modPlayer.bulletBurnChance){
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(3);
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkOrange*0.1f;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = Color.DarkOrange;
+                    Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
+                }
                     projs.Add(proj);
                     if(storefiredshots){
                         firedshots.Add(proj);
@@ -143,11 +168,19 @@ namespace RefTheGun.Items
                         Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
                     }
                     Spread = Math.Max(Math.Min(Spread+BloomPerShot, MaxSpread),MinSpread);
+                    if(ammoPerMult(i)){
+                        if(player.altFunctionUse != 2&&MaxAmmo>0){
+                            Ammo--;
+                            modPlayer.roundsinmag = Ammo;
+                            if(instantreload&&Ammo<=0)Reload();
+                        }
+                        if(Ammo<=0)break;
+                    }
                 }
-                if(player.altFunctionUse != 2&&MaxAmmo>0){
+                if(!ammoPerMult(0))if(player.altFunctionUse != 2&&MaxAmmo>0){
                     Ammo--;
                     modPlayer.roundsinmag = Ammo;
-                    if(instantreload)Reload();
+                    if(instantreload&&Ammo<=0)Reload();
                 }
                 PostShoot(projs.ToArray());
             }

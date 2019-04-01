@@ -91,19 +91,10 @@ namespace RefTheGun.Items
 			projectile.GetGlobalProjectile<GunGlobalProjectile>().effectonhit=false;
 			a.timeLeft=(int)(300*(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII?1:2));
 		}
-		
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-            if(player.altFunctionUse == 2)return false;
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockBack, item.owner);
-            Main.projectile[proj].usesLocalNPCImmunity = true;
-            Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-            Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
-            if(player.altFunctionUse != 2&&MaxAmmo>0){
-                Ammo--;
-			    modPlayer.roundsinmag = Ammo;
-            }
-            return false;
-        }
+		public override void PostShoot(int p){
+            Main.projectile[p].usesLocalNPCImmunity = true;
+            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
+            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
+		}
 	}
 }

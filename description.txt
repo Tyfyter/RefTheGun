@@ -4,13 +4,18 @@ Enter the Gungeon is a pretty cool game though, you should check it out!
 No, this was not sponsored.
 
 Changelog:
-0.5:
-Note to self: you haven't released this one yet, and you might as well just move this line to the next version. AND ACTUALLY PAY ATTENTION TO THIS THIS TIME.
+1.1:
+Note to self: you haven't released this one yet, and you might as well just move this line to the next version. (I finally remembered!)
+
+1.0:
+Technically out of beta now.
 Finally actually added passive items.
-buffed and renamed old hero's bow.
-added hero's bow.
-fixed hex daggers visual glitch when you have a multishot boost.
-fixed changelog spacing.
+Added a knife. It's kind of cool.
+Fixed Nightwatch Ogris not using multishot (and added yet another "unintentional feature")
+Buffed and renamed old hero's bow.
+Added hero's bow.
+Fixed hex daggers visual glitch when you have a multishot boost.
+Fixed changelog spacing.
 
 0.4:
 Added things, but I forgot to change the changelog when I added them, so just know that there's more things (Including a weapon with a synergy)

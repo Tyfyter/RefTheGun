@@ -9,16 +9,18 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using RefTheGun.Items;
+using RefTheGun.Items.Passives;
 
 namespace RefTheGun.UI
 {
 	// This class represents the UIState for the "Gungeon Bandoleer"
-	internal class GunItemsUI : UIState {
+	public class GunItemsUI : UIState {
         public List<VanillaItemSlotWrapper> itemSlots = new List<VanillaItemSlotWrapper>(){};
         public Item item{
-            get{return Main.item[itemId];}
-            set{itemId = value.whoAmI;}
-        }
+            get{return ((GunPlayer)Main.LocalPlayer).GetBandoleer();}
+            set{if(((GunPlayer)Main.LocalPlayer).GetBandoleerIndex()>=0)Main.LocalPlayer.inventory[((GunPlayer)Main.LocalPlayer).GetBandoleerIndex()] = value;}
+        }//*/
+        //public List<Item> passives;
         public int itemId;
         public override void OnInitialize(){
             for (int i = 0; i < 4; i++){
@@ -28,22 +30,21 @@ namespace RefTheGun.UI
                 Top = { Pixels = 105+(i*33) },
                 ValidItemFunc = item => item.IsAir || !item.IsAir && ((item.modItem!=null?item.modItem.mod==RefTheGun.mod:false)?(!((RefTheItem)item.modItem).isGun):false)
 				};
-                if(item!=null){
-                    Main.NewText(((GunItemBelt)item.modItem).passives.Count+";"+i);
+                if(item!=null)if(!item.IsAir){
                     if(((GunItemBelt)item.modItem).passives.Count>i){
-                        Main.NewText(((GunItemBelt)item.modItem).passives.Count+";"+i);
                         itemSlots[i].Item = ((GunItemBelt)item.modItem).passives[i];
                     }
                 }
                 Append(itemSlots[i]);
             }
+            //Main.NewText(((GunItemBelt)RefTheGun.mod.gunItemUI.item.modItem).passives.Count+":"+passives.Count);
         }
         public override void Update(GameTime gameTime){
             base.Update(gameTime);
-            if(item!=null)if(item.modItem!=null){
+            if(item!=null)if(!item.IsAir)if(item.modItem!=null){
                 item.modItem.UpdateInventory(Main.LocalPlayer);
             }
-            for (int i = 0; i < itemSlots.Count; i++)if(itemSlots[i].Item.modItem!=null){
+            for (int i = 0; i < itemSlots.Count; i++)if(item!=null)if(!item.IsAir)if(itemSlots[i].Item.modItem!=null){
                 //((HeartItemBase)heartSlots[i].Item.modItem).index = i;
             }
         }
@@ -54,12 +55,12 @@ namespace RefTheGun.UI
 			UpdateItem();
 		}
 		public void UpdateItem(){
-            List<Item>passives = new List<Item>(){};
+            List<Item> passives = new List<Item>(){};
             for(int i = 0; i < itemSlots.Count; i++)passives.Add(null);
 			for(int i = 0; i < itemSlots.Count; i++)passives[i] = itemSlots[i].Item;
             ((GunItemBelt)item.modItem).passives = passives;
-            ((GunItemBelt)item.modItem).pcount = passives.Count;
-            //Main.NewText(";"+passives.Count+";"+((GunItemBelt)item.modItem).passives.Count+";"+((GunItemBelt)item.modItem).pcount);
+            //((GunItemBelt)item.modItem).pcount = ((GunItemBelt)item.modItem).passives.Count;
+            //Main.NewText(passives.Count+";"+((GunItemBelt)item.modItem).passives[0].Name+";"+((GunItemBelt)item.modItem).pcount);
 		}
     }
 }
