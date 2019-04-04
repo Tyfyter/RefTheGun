@@ -46,7 +46,6 @@ namespace RefTheGun.NPCs
         public List<float[]> DMGBuffs = new List<float[]>{};
 		public List<Buff> Buffs = new List<Buff>{};
         public override void AI(NPC npc){
-			if(npc.HasBuff(BuffID.Frozen))npc.velocity = new Vector2();
             for(int i = 0; i<DMGBuffs.Count; i++){
 				if((((int)DMGBuffs[i][2])&4)!=0)continue;
                 DMGBuffs[i][1]--;
@@ -60,13 +59,15 @@ namespace RefTheGun.NPCs
             }
         }
         public override bool PreAI(NPC npc){
-			if(npc.HasBuff(BuffID.Frozen))npc.velocity = new Vector2();
 			bool a = true;
+			bool b = !npc.HasBuff(BuffID.Frozen);
+			npc.color=b?default(Color):Color.Aqua*0.5f;
             Buffs.RemoveAll(Buff.GC);
 			if(Buffs.Count>0)for(int i = 0; i<Buffs.Count; i++){
 				a = a&&Buffs[i].PreUpdate(npc);
             }
-			return a;
+			if(a&&!b)AI(npc);
+			return a&&b;
         }
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit){
 			damage = (int)(damage*dmgmult);

@@ -7,6 +7,9 @@ using Terraria;
 using Terraria.ID;
 using System;
 using System.Collections.Generic;
+using RefTheGun.Items;
+using Terraria.ModLoader.IO;
+using RefTheGun.Classes;
 
 namespace RefTheGun
 {
@@ -27,6 +30,7 @@ namespace RefTheGun
 		}
         public override void Load()
         {
+			TagSerializer.AddSerializer(new ProjSerializer());
             mod = this;
             Properties = new ModProperties()
             {
@@ -55,7 +59,9 @@ namespace RefTheGun
                 return;
             }else if(player.HeldItem.modItem.mod!=mod){
                 return;
-            }else if(Main.playerInventory){
+            }else if(!((RefTheItem)player.HeldItem.modItem).isGun){
+				return;
+			}else if(Main.playerInventory){
 				return;
 			}
 			if(modPlayer.magsize!=0)Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], (modPlayer.magsize > 0 ? modPlayer.roundsinmag+"/"+modPlayer.magsize : (modPlayer.magsize == 0 ? "∞" : (modPlayer.magsize == -1 ? modPlayer.roundsinmag+"" : ""))), Main.screenWidth*0.90f, Main.screenHeight*0.85f, Color.White, Color.Black, new Vector2(0.3f), 1);

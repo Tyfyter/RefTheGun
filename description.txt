@@ -6,6 +6,10 @@ No, this was not sponsored.
 Changelog:
 1.1:
 Note to self: you haven't released this one yet, and you might as well just move this line to the next version. (I finally remembered!)
+Gungeon bandoleer now has infinite slots.
+Gungeon bandoleer now generally works better.
+Added a few more passives (Alpha Bullets, Omega bullets, etc.)
+Gave the gungeon bandoleer its own texture.
 
 1.0:
 Technically out of beta now.

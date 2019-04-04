@@ -99,6 +99,7 @@ namespace RefTheGun.Items
             if((ammoPerMult(0)?Math.Min(Multishot,Ammo):Multishot)*modPlayer.multishotmult==1){
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(Main.rand.NextFloat(0, Spread)/36), type, damage, knockBack, item.owner);
                 Main.projectile[proj].friendly = true;
+                Main.projectile[proj].hostile = false;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
                 Main.projectile[proj].localNPCHitCooldown = 3;
                 if(Main.rand.NextFloat(0,1)<=modPlayer.bulletPoisonChance){

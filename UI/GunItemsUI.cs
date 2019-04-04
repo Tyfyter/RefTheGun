@@ -10,6 +10,7 @@ using Terraria.UI;
 using Terraria.UI.Chat;
 using RefTheGun.Items;
 using RefTheGun.Items.Passives;
+using System;
 
 namespace RefTheGun.UI
 {
@@ -23,11 +24,15 @@ namespace RefTheGun.UI
         //public List<Item> passives;
         public int itemId;
         public override void OnInitialize(){
-            for (int i = 0; i < 4; i++){
+            int l = 4;
+            if(item!=null){
+                l+=(int)(Math.Ceiling((((GunItemBelt)item.modItem).pcount()-3)/4f)*4);
+            }
+            for (int i = 0; i < l; i++){
                 if(i>=itemSlots.Count)itemSlots.Add(null);
                 itemSlots[i] = new VanillaItemSlotWrapper(scale:0.575f){
-				Left = { Pixels = 570 },
-                Top = { Pixels = 105+(i*33) },
+				Left = { Pixels = 570+((i-(i%4))*8.25f) },
+                Top = { Pixels = 105+((i%4)*33) },
                 ValidItemFunc = item => item.IsAir || !item.IsAir && ((item.modItem!=null?item.modItem.mod==RefTheGun.mod:false)?(!((RefTheItem)item.modItem).isGun):false)
 				};
                 if(item!=null)if(!item.IsAir){

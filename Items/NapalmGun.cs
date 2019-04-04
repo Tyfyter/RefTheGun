@@ -89,6 +89,10 @@ namespace RefTheGun.Items
 			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[5]=-0.0625f;
 			a.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
 			projectile.GetGlobalProjectile<GunGlobalProjectile>().effectonhit=false;
+			a.GetGlobalProjectile<GunGlobalProjectile>().passives = projectile.GetGlobalProjectile<GunGlobalProjectile>().passives;
+			a.GetGlobalProjectile<GunGlobalProjectile>().GlowColor = projectile.GetGlobalProjectile<GunGlobalProjectile>().GlowColor;
+			a.GetGlobalProjectile<GunGlobalProjectile>().Color = projectile.GetGlobalProjectile<GunGlobalProjectile>().Color;
+			a.GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = projectile.GetGlobalProjectile<GunGlobalProjectile>().OverrideColor;
 			a.timeLeft=(int)(300*(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII?1:2));
 		}
 		public override void PostShoot(int p){

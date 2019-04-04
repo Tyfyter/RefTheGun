@@ -158,6 +158,17 @@ namespace RefTheGun
 					}
 				}
 			}
+			for(int i = Main.rand.Next(10); i<10; i++){
+				Chest chestc = Main.chest[Main.rand.Next(SkyChests)];
+				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				{
+					if (chestc.item[inventoryIndex].type == 0)
+					{
+						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<AoPitlord>());
+						break;
+					}
+				}
+			}
 		}
 	}
 }

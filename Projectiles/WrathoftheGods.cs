@@ -85,7 +85,7 @@ namespace RefTheGun.Projectiles
             projectile.scale = 1+(projectile.ai[0]/(float)projectile.timeLeft)+(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[1];
             if(!projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures)Main.player[projectile.owner].velocity*=0.95f;
             for(int i = 0; i < 100; i++){
-                Dust a = Dust.NewDustPerfect(projectile.Center+new Vector2(0,(projectile.height/2)*projectile.scale*Main.rand.NextFloat(1-(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[3],1)).RotatedBy(i), (int)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[2]);
+                Dust a = Dust.NewDustPerfect(projectile.Center+new Vector2(0,(projectile.height/2)*projectile.scale*Main.rand.NextFloat(1-(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[3],1)).RotatedBy(i), (int)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[2], newColor:projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor?projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).Color:default(Color));
                 a.noGravity = true;
             }
         }
