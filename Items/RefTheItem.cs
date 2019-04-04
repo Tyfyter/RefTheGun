@@ -101,7 +101,7 @@ namespace RefTheGun.Items
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].hostile = false;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
-                Main.projectile[proj].localNPCHitCooldown = 3;
+                Main.projectile[proj].localNPCHitCooldown = 9;
                 if(Main.rand.NextFloat(0,1)<=modPlayer.bulletPoisonChance){
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(1);
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkGreen*0.1f;
@@ -140,8 +140,9 @@ namespace RefTheGun.Items
                 {
                     int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(Spread/36), type, damage, knockBack, item.owner);
                     Main.projectile[proj].friendly = true;
+                    Main.projectile[proj].hostile = false;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 3;
+                    Main.projectile[proj].localNPCHitCooldown = 9;
                 if(Main.rand.NextFloat(0,1)<=modPlayer.bulletPoisonChance){
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).passives.Add(1);
                     Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = Color.DarkGreen*0.1f;

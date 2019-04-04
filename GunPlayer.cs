@@ -9,6 +9,7 @@ using RefTheGun.Buffs;
 using RefTheGun.Items;
 using RefTheGun.Classes;
 using Terraria.ModLoader.IO;
+using Terraria.GameInput;
 
 namespace RefTheGun {
     public class GunPlayer : ModPlayer {
@@ -57,6 +58,14 @@ namespace RefTheGun {
                 }
             }
             return base.ShiftClickSlot(inventory, context, slot);
+        }
+        public override void SetControls(){
+            if(!player.controlSmart)return;
+            if(Math.Abs(PlayerInput.ScrollWheelDelta)<60)return;
+            if(player.HeldItem!=null)if(player.HeldItem.type!=mod.ItemType<Pandora>())return;
+            Main.PlaySound(12, player.Center);
+            ((Pandora)player.HeldItem.modItem).tryFavScroll(PlayerInput.ScrollWheelDelta / -120);
+			PlayerInput.ScrollWheelDelta = 0;
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource){
             if(player.HasBuff(mod.BuffType<ToDBuff>())){

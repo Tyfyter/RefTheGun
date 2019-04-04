@@ -15,13 +15,14 @@ using RefTheGun.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Localization;
 using RefTheGun.Classes;
+using Terraria.GameInput;
 
 namespace RefTheGun.Items{
 	public class Pandora : RefTheItem{
 		LegacySoundStyle useSound = new LegacySoundStyle(2, 5);
 		public int mode = 0;
+		public int lastfav = 0;
 		List<SimpleProj> favs = new List<SimpleProj>();
-		int timesinceswitch = 0;
         private int timesinceright;
         private static int searchtype;
 
@@ -29,12 +30,11 @@ namespace RefTheGun.Items{
 			DisplayName.SetDefault("Pandora");
 		}
 		public override void SetDefaults(){
-			item.damage = 21;
-			item.ranged = true;
+			item.damage = 41;
 			item.noMelee = true;
 			item.width = 10;
 			item.height = 50;
-			item.useTime = 1;
+			item.useTime = 7;
 			item.useAnimation = 7;
 			item.useStyle = 5;
 			item.knockBack = 6;
@@ -44,6 +44,8 @@ namespace RefTheGun.Items{
 			item.shootSpeed = 12.5f;
 			item.UseSound = null;
 			item.autoReuse = true;
+			Item.claw[item.type] = true;
+			Item.staff[item.type] = true;
 			MaxAmmo = 0;
 			MaxSpread = 4.5f;
 			MinSpread = 0f;
@@ -60,7 +62,7 @@ namespace RefTheGun.Items{
 			modPlayer.roundsinmag = Ammo;
 			modPlayer.magsize = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>(mod).MagMultiply)*/;
 			modPlayer.guninfo = GetProjName(mode);
-			if(!player.controlUseTile&&timesinceswitch>0)timesinceswitch--;
+			//if(!player.controlUseTile&&timesinceswitch>0)timesinceswitch--;
             if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
 				Ammo = MaxAmmo;
                 restoredefaults();
@@ -79,6 +81,17 @@ namespace RefTheGun.Items{
 			o["favs"] = favs;
             return o;
         }
+		public void tryFavScroll(int dir){
+			searchtype = mode;
+			if(!favs.Exists(search))mode = lastfav;
+			favScroll(dir);
+		}
+		void favScroll(int dir){
+			searchtype = mode;
+			lastfav = favs.IndexOf(favs.Find(search));
+			int fav = lastfav+dir<0?favs.Count-1:(lastfav+dir)%favs.Count;
+			mode = favs[fav].type;
+		}
         public override void Load(TagCompound tagCompound){
             if(tagCompound.HasTag("mode")){
                 mode = tagCompound.GetInt("mode");
@@ -119,6 +132,11 @@ namespace RefTheGun.Items{
 		string GetProjName(int type){
 			Projectile a = new Projectile();
 			a.SetDefaults(type);
+			item.melee = a.melee;
+			item.ranged = a.ranged;
+			item.magic = a.magic;
+			item.summon = a.minion;
+			item.thrown = a.thrown;
 			return a.Name;
 			//return ProjectileLoader.GetProjectile(type).DisplayName.GetTranslation(LanguageManager.Instance.ActiveCulture);
 		}
@@ -135,13 +153,16 @@ namespace RefTheGun.Items{
 			if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return false;
             if(player.altFunctionUse == 2){
 				item.useStyle = 1;
-				item.noUseGraphic = true;
-				if(timesinceswitch==0)ToggleMode();
-				timesinceswitch = 2;
+				item.noUseGraphic = false;
+				ToggleMode();
+				item.useTime = 10;
+				item.useAnimation = 10;
 				item.mana = 0;
             }else{
 				item.useStyle = 5;
-				item.noUseGraphic = false;
+				item.noUseGraphic = true;
+				item.useTime = 7;
+				item.useAnimation = 7;
             }
 			return true;
         }
@@ -160,7 +181,7 @@ namespace RefTheGun.Items{
 				}
 				a = new Projectile();
 				a.SetDefaults(mode);
-				if(a.aiStyle==20||a.aiStyle==26||a.aiStyle==62)goto Predec;
+				if(a.aiStyle==20||a.aiStyle==26||a.minionSlots>0||a.aiStyle==99||a.bobber)goto Predec;
 			}else{
 				Preinc:
 				if(++mode>ProjectileLoader.ProjectileCount){
@@ -168,17 +189,28 @@ namespace RefTheGun.Items{
 				}
 				a = new Projectile();
 				a.SetDefaults(mode);
-				if(a.aiStyle==20||a.aiStyle==26||a.aiStyle==62)goto Preinc;
+				if(a.aiStyle==20||a.aiStyle==26||a.minionSlots>0||a.aiStyle==99||a.bobber)goto Preinc;
 			}
 		}
 		public override void AddRecipes(){
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.WoodenBow, 1);
-			recipe.AddIngredient(ItemID.GoldBar, 10);
-			recipe.AddIngredient(ItemID.FallenStar, 5);
+			recipe.AddIngredient(ItemID.IronAnvil, 999);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.LeadAnvil, 999);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+		public override void UpdateInventory(Player player){
+            if(timesinceright>0){
+                timesinceright--;
+            }
+		}
+		public override void PostShoot(int p){
+			Main.projectile[p].GetGlobalProjectile<PandoraGlobalProjectile>().useIt = true;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			if(player.altFunctionUse==2||player.GetModPlayer<GunPlayer>().Reloading)return false;
@@ -189,7 +221,7 @@ namespace RefTheGun.Items{
 			Player player = Main.player[item.owner];
 			//float scale = 0.7f;
 			try{
-			if(mod.TextureExists("Items/Pandora"))spriteBatch.Draw(mod.GetTexture("Items/Pandora"), position/*+new Vector2(20,17)*/, new Rectangle(0,0,28,50), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
+			if(mod.TextureExists("Items/Pandora"))spriteBatch.Draw(mod.GetTexture("Items/Pandora"), position/*+new Vector2(20,17)*/, new Rectangle(0,0,10,50), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
 			}
 			catch (System.Exception){
 				return true;

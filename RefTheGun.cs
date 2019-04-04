@@ -165,5 +165,12 @@ namespace RefTheGun
 		public static bool frenPC(NPC maybe){
 			return maybe.friendly;
 		}
+        public static string Concat<T>(this T[] i){
+            string o = "[";
+            for (int i2 = 0; i2 < i.Length; i2++) {
+                o+=i[i2].ToString()+(i2==i.Length-1?"":",");
+            }
+            return o+"]";
+        }
 	}
 }
