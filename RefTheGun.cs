@@ -30,7 +30,6 @@ namespace RefTheGun
 		}
         public override void Load()
         {
-			TagSerializer.AddSerializer(new ProjSerializer());
             mod = this;
             Properties = new ModProperties()
             {

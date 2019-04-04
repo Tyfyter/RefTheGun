@@ -1,10 +1,15 @@
+using System;
 using Terraria;
 using Terraria.ModLoader.IO;
 
 namespace RefTheGun.Classes {
-    public class SimpleProj {
+    public class SimpleProj : TagSerializable{
         public int type;
         public string name = "";
+        public static readonly Func<TagCompound, SimpleProj> DESERIALIZER = new Func<TagCompound, SimpleProj>(Deserialize);
+        public SimpleProj(){
+			new SimpleProj(1, "error");
+        }
         public SimpleProj(int type){
 			Projectile a = new Projectile();
 			a.SetDefaults(type);
@@ -14,20 +19,17 @@ namespace RefTheGun.Classes {
             this.type = type;
             this.name = name;
         }
-    }
-	public class ProjSerializer : TagSerializer<SimpleProj, TagCompound>
-	{
-		public override TagCompound Serialize(SimpleProj value)
-		{
+        public TagCompound SerializeData(){
 			TagCompound expr_05 = new TagCompound();
-			expr_05["type"] = value.type;
-			expr_05["name"] = value.name;
+			expr_05["type"] = type;
+			expr_05["name"] = name;
 			return expr_05;
-		}
-
-		public override SimpleProj Deserialize(TagCompound tag)
+        }
+		public static SimpleProj Deserialize(TagCompound tag)
 		{
+            if(!tag.HasTag("type"))return new SimpleProj();
+            if(!tag.HasTag("name"))return new SimpleProj(tag.GetInt("type"));
 			return new SimpleProj(tag.GetInt("type"), tag.GetString("name"));
 		}
-	}
+    }
 }

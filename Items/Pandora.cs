@@ -19,7 +19,7 @@ using RefTheGun.Classes;
 namespace RefTheGun.Items{
 	public class Pandora : RefTheItem{
 		LegacySoundStyle useSound = new LegacySoundStyle(2, 5);
-		int mode = 0;
+		public int mode = 0;
 		List<SimpleProj> favs = new List<SimpleProj>();
 		int timesinceswitch = 0;
         private int timesinceright;
@@ -74,7 +74,9 @@ namespace RefTheGun.Items{
 			return false;
 		}
         public override TagCompound Save(){
-            TagCompound o = new TagCompound(){{"mode",mode},{"favs",favs}};
+            TagCompound o = new TagCompound();
+			o["mode"] = mode;
+			o["favs"] = favs;
             return o;
         }
         public override void Load(TagCompound tagCompound){
@@ -82,8 +84,8 @@ namespace RefTheGun.Items{
                 mode = tagCompound.GetInt("mode");
             }
             if(tagCompound.HasTag("favs")){
-                favs = tagCompound.Get<List<SimpleProj>>("favs");
-            }
+				favs = tagCompound.Get<List<SimpleProj>>("favs");
+			}
         }
         public override bool CanRightClick(){
             if(timesinceright<=0){
