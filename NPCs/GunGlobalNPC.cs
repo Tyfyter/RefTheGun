@@ -61,7 +61,7 @@ namespace RefTheGun.NPCs
         public override bool PreAI(NPC npc){
 			bool a = true;
 			bool b = !npc.HasBuff(BuffID.Frozen);
-			npc.color=b?default(Color):Color.Aqua*0.5f;
+			if(b)npc.color=Color.Aqua*0.5f;
             Buffs.RemoveAll(Buff.GC);
 			if(Buffs.Count>0)for(int i = 0; i<Buffs.Count; i++){
 				a = a&&Buffs[i].PreUpdate(npc);

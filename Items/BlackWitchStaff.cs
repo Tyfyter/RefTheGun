@@ -109,7 +109,7 @@ namespace RefTheGun.Items
 				}
 				//TextureInUse = Spells[spell]=="Soul Greatsword" ? SwordTexture : MainTexture;
             }
-			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana(SpellMana[spell], true));
+			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana((int)(SpellMana[spell]*1.11f), true));
         }
 		public override float UseTimeMultiplier(Player player){
 			return player.altFunctionUse != 2 ? SpellSpeed[spell] : 1;

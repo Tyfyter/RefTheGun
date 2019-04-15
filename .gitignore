@@ -4,3 +4,4 @@ bin/*
 .vs/*
 *.lock
 *.ide
+obj/Debug/RefTheGun.csproj.CoreCompileInputs.cache

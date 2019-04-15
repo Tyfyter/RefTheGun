@@ -26,7 +26,7 @@ namespace RefTheGun.Items
 		protected int spell = 0;
 		protected float[] SpellDamage = new float[9]{1.33f,1.66f,2,0.85f,1,1.3f,75,0,0};
 		protected int[] SpellAmmo = new int[9]{15,10,6,0,5,4,0,0,0};
-		protected int[] SpellMana = new int[9]{5,7,10,15,40,80,20,35,20};
+		protected int[] SpellMana = new int[9]{5,7,10,15,40,60,20,35,20};
 		protected float[] SpellSpeed = new float[9]{2f,1.85f,1.75f,1.25f,0.45f,0.45f,1.05f,1f,1f};
 
 		public override bool Autoload(ref string name){
@@ -46,7 +46,7 @@ namespace RefTheGun.Items
 				item.channel = false;
 				if(Spells[spell]=="Way of White Corona"){
 					for(int i = 0; i < Main.projectile.Length; i++){
-						if(Main.projectile[i].owner == player.whoAmI && Main.projectile[i].Name=="Way of White Corona"){
+						if(Main.projectile[i].owner == player.whoAmI && Main.projectile[i].Name=="Way of White Corona" && Main.projectile[i].active){
 							Main.projectile[i].Kill();
 							return false;
 						}
@@ -72,7 +72,7 @@ namespace RefTheGun.Items
 					return !player.HasBuff(mod.BuffType<ToDCD>());
 				}
             }
-			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana(SpellMana[spell], true));
+			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana((int)(SpellMana[spell]*1.5f), true));
         }
 		public override float UseTimeMultiplier(Player player){
 			return player.altFunctionUse != 2 ? SpellSpeed[spell] : 1;

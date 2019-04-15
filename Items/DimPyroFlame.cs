@@ -22,7 +22,7 @@ namespace RefTheGun.Items
 		int spell = 0;
 		float[] SpellDamage = new float[11]{1.75f,2.5f,3.85f,1.25f,3f,1.5f,2.5f,0.85f,0.625f,0.625f,0};
 		int[] SpellAmmo = new int[11]{8,4,3,6,1,10,6,10,3,2,1};
-		int[] SpellMana = new int[11]{5,15,25,20,60,8,18,1,30,30,50};
+		int[] SpellMana = new int[11]{5,15,25,20,60,8,18,10,30,30,50};
 		float[] SpellSpeed = new float[11]{1.5f,1,0.75f,0.79f,0.6f,1.9f,1.65f,2.4f,1,1,0.5f};
 		bool[] SpellNeedsDry = new bool[11]{true,true,true,true,true,false,false,true,false,false,false};
 		
@@ -77,7 +77,7 @@ namespace RefTheGun.Items
 				item.autoReuse = Spells[spell]=="Fire Surge";
 				item.shoot = SpellNeedsDry[spell] ? ProjectileID.BallofFire : 1;
             }
-			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana(SpellMana[spell], true));
+			return base.CanUseItem(player)&&(player.altFunctionUse == 2 || player.CheckMana((int)(SpellMana[spell]*1.75f), true));
         }
 		public override float UseTimeMultiplier(Player player){
 			return player.altFunctionUse != 2 ? SpellSpeed[spell] : 1;

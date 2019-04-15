@@ -4,8 +4,11 @@ Enter the Gungeon is a pretty cool game though, you should check it out!
 No, this was not sponsored.
 
 Changelog:
+1.2:
+Slightly nerfed dark souls references.
+Fixed stuck chime bug.
+
 1.1:
-Note to self: you haven't released this one yet, and you might as well just move this line to the next version. (I finally remembered!)
 Gungeon bandoleer now has infinite slots.
 Gungeon bandoleer now generally works better.
 Added a few more passives (Alpha Bullets, Omega bullets, etc.)
