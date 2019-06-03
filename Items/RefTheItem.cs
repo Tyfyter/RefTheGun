@@ -12,6 +12,7 @@ using System.Text;
 using System.Reflection;
 using Terraria.Audio;
 using RefTheGun.Projectiles;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items
 {
@@ -56,7 +57,7 @@ namespace RefTheGun.Items
                 ReloadFinishHook(player, Ammo);
                 restoredefaults();
                 Ammo = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>(mod).MagMultiply)*/;
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = false;
+                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
             }
         }
         public override void HoldStyle(Player player){
@@ -70,7 +71,7 @@ namespace RefTheGun.Items
                 if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return false;
                 if(reloadwhenfull && (Ammo >= MaxAmmo||MaxAmmo<=0)){
                     SpecialReloadProj(player, Ammo);
-                    Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = true;
+                    Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
                     return true;
                 }
                 if(Ammo >= /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>(mod).MagMultiply)*/)return false;
@@ -83,7 +84,7 @@ namespace RefTheGun.Items
                 return true;
             }else{
                 restoredefaults();
-                return (Ammo > 0 || MaxAmmo <= 0) && !Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading;
+                return (Ammo > 0 || MaxAmmo <= 0) && (!Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading||specialreloadproj);
             }
         }
         public virtual void SpecialReloadProj(Player player, int ammoleft){}
@@ -131,7 +132,7 @@ namespace RefTheGun.Items
                 if(player.altFunctionUse != 2&&MaxAmmo>0){
                     Ammo--;
                     modPlayer.roundsinmag = Ammo;
-                    if(instantreload&&Ammo<=0)Reload();
+                    if(instantreload&&Ammo<=0&&!modPlayer.Reloaded)Reload();
                 }
                 PostShoot(proj);
             }else{
@@ -174,7 +175,7 @@ namespace RefTheGun.Items
                         if(player.altFunctionUse != 2&&MaxAmmo>0){
                             Ammo--;
                             modPlayer.roundsinmag = Ammo;
-                            if(instantreload&&Ammo<=0)Reload();
+                            if(instantreload&&Ammo<=0&&!modPlayer.Reloaded)Reload();
                         }
                         if(Ammo<=0)break;
                     }
@@ -182,13 +183,13 @@ namespace RefTheGun.Items
                 if(!ammoPerMult(0))if(player.altFunctionUse != 2&&MaxAmmo>0){
                     Ammo--;
                     modPlayer.roundsinmag = Ammo;
-                    if(instantreload&&Ammo<=0)Reload();
+                    if(instantreload&&Ammo<=0&&!modPlayer.Reloaded)Reload();
                 }
                 PostShoot(projs.ToArray());
             }
             return false;
         }
-		void Reload(){
+		public void Reload(){
 			Player player = Main.player[item.owner];
 			if(!Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading&&!Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
                 if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return;

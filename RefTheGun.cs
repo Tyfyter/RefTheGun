@@ -64,8 +64,9 @@ namespace RefTheGun
 				return;
 			}
 			if(modPlayer.magsize!=0)Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], (modPlayer.magsize > 0 ? modPlayer.roundsinmag+"/"+modPlayer.magsize : (modPlayer.magsize == 0 ? "∞" : (modPlayer.magsize == -1 ? modPlayer.roundsinmag+"" : ""))), Main.screenWidth*0.90f, Main.screenHeight*0.85f, Color.White, Color.Black, new Vector2(0.3f), 1);
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], modPlayer.guninfo, Main.screenWidth*0.90f, Main.screenHeight*0.90f, Color.White, Color.Black, new Vector2(0.3f), 0.8f);
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontCombatText[1], modPlayer.guninfo, Main.screenWidth*0.90f, Main.screenHeight*0.90f, modPlayer.guninfocolor, new Color(0,0,0,modPlayer.guninfocolor.A), new Vector2(0.3f), 0.8f);
 			modPlayer.guninfo="";
+			modPlayer.guninfocolor=Color.White;
 		}
 		public override void UpdateUI(GameTime gameTime) {
             if(RefTheGun.mod.UI.CurrentState!=null&&!Main.playerInventory){
@@ -168,9 +169,64 @@ namespace RefTheGun
         public static string Concat<T>(this T[] i){
             string o = "[";
             for (int i2 = 0; i2 < i.Length; i2++) {
-                o+=i[i2].ToString()+(i2==i.Length-1?"":",");
+                o+=(i[i2]!=null?i[i2].ToString():"null")+(i2==i.Length-1?"":",");
             }
             return o+"]";
         }
+        public static string Concat<T>(this IList<T> i){
+            string o = "[";
+            for (int i2 = 0; i2 < i.Count; i2++) {
+                o+=(i[i2]!=null?i[i2].ToString():"null")+(i2==i.Count-1?"":",");
+            }
+            return o+"]";
+        }
+		public static List<T> Merge<T>(this List<T> a, List<T> b) where T : class{
+			List<T> c = new List<T>(){};
+			int d = Math.Max(a.Count,b.Count);
+			for (int i = 0; i < d; i++)c.Add(null);
+			for (int i = 0; i < d; i++){
+				if(i>=a.Count){
+					c[i] = b[i];
+				}else if(i>=b.Count){
+					c[i] = a[i];
+				}else{
+					c[i] = b[i]??a[i];
+				}
+			}
+			return c;
+		}
+		public static void MergeIn<T>(this List<T> a, List<T> b) where T : class{
+			List<T> c = new List<T>(){};
+			int d = Math.Max(a.Count,b.Count);
+			for (int i = 0; i < d; i++)c.Add(null);
+			for (int i = 0; i < d; i++){
+				if(i>=a.Count){
+					c[i] = b[i];
+				}else if(i>=b.Count){
+					c[i] = a[i];
+				}else{
+					c[i] = b[i]==null?a[i]:b[i];
+				}
+			}
+			a.Clear();
+			for (int i = 0; i < d; i++)a.Add(null);
+			for (int i = 0; i < d; i++)a[i] = c[i];
+		}
+		
+		public class TrueNullable<T> {
+			public T value;
+			public TrueNullable(T value){
+				this.value=value;
+			}
+			public static implicit operator T(TrueNullable<T> input){
+				return input.value;
+			}
+			public static implicit operator TrueNullable<T>(T input){
+				return new TrueNullable<T>(input);
+			}
+			public override string ToString(){
+				return value.ToString()+"?";
+			}
+		}
 	}
 }

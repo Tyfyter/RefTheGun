@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Localization;
 using RefTheGun.Classes;
 using Terraria.GameInput;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items{
 	public class Pandora : RefTheItem{
@@ -66,7 +67,7 @@ namespace RefTheGun.Items{
             if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
 				Ammo = MaxAmmo;
                 restoredefaults();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = false;
+                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
             }
 		}
         public override void HoldStyle(Player player){

@@ -29,6 +29,7 @@ namespace RefTheGun {
         public float bulletBurnChance = 0;
         public bool bullet20Slow = false;
         public float multishotmult = 1;
+        public Color guninfocolor = Color.White;
 
         public override bool Autoload(ref string name) {
             return true;

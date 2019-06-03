@@ -5,6 +5,7 @@ using RefTheGun.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static RefTheGun.RefTheExtensions;
 
 namespace RefTheGun.Projectiles
 {
@@ -61,6 +62,23 @@ namespace RefTheGun.Projectiles
             }
         }
     }
+    /**
+    ai:
+        0:growth
+        1:knockback
+    aioverflow:
+        0:damage
+        1:size
+        2:dust
+        3:dust range
+        4:damage
+        5:knockback
+        6:
+            1:kill projectiles
+            2:
+            4:
+            8:
+    */
     public class WrathoftheTitans : ModProjectile
     {
         public override String Texture{
@@ -71,20 +89,23 @@ namespace RefTheGun.Projectiles
 		{
 			DisplayName.SetDefault("Wrath of the Titans");
 		}
+        bool init = true;
         public override void SetDefaults()
         {
             projectile.CloneDefaults(ProjectileID.Electrosphere);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
+            if(!init)return;
             projectile.timeLeft = 3;
             projectile.aiStyle = 0;
             projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[0] = 6;
             projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[2] = 133;
+            init = false;
         }
         public override void AI(){
             projectile.scale = 1+(projectile.ai[0]/(float)projectile.timeLeft)+(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[1];
             if(!projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures)Main.player[projectile.owner].velocity*=0.95f;
-            for(int i = 0; i < 100; i++){
+            if(projectile.timeLeft<10||projectile.timeLeft%5==0)for(int i = 0; i < 100; i++){
                 Dust a = Dust.NewDustPerfect(projectile.Center+new Vector2(0,(projectile.height/2)*projectile.scale*Main.rand.NextFloat(1-(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[3],1)).RotatedBy(i), (int)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[2], newColor:projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor?projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).Color:default(Color));
                 a.noGravity = true;
             }
@@ -105,6 +126,8 @@ namespace RefTheGun.Projectiles
                 if(target.Hitbox.Intersects(hitbox)&&(projectile.owner!=target.owner||!target.friendly||!projectile.Name.Contains("Lightning Arrow"))&&projectile.whoAmI!=target.whoAmI){
                     target.velocity+=((Rectangle.Intersect(target.Hitbox, hitbox).Center()-projectile.Center).Normalized()*(((projectile.height*projectile.ai[1])-(target.Center-projectile.Center).Length())*0.3f))*(projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[5]==null?1:(float)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[5]);
                     target.friendly = true;
+                    if(target.owner!=projectile.owner&&((((projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[6]==null?0:(int)projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow[5])|1))!=0))target.Kill();
+                    //Main.NewText(projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).aioverflow.Concat());
                 }
             }
         }

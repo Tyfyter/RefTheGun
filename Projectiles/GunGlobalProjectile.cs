@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using RefTheGun.Items;
 using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
+using static RefTheGun.RefTheExtensions;
 
 namespace RefTheGun.Projectiles
 {
@@ -27,14 +28,14 @@ namespace RefTheGun.Projectiles
         public int OverrideTextureInt = 0;
         public int OverrideTextureMode = 0;
         public bool ignorespecialfeatures = false;
-        public List<float?> aioverflow = new List<float?>{0,0,0,0,null,null};
+        public List<TrueNullable<float>> aioverflow = new List<TrueNullable<float>>{0,0,0,0,null,null,null};
         public Color GlowColor = new Color();
         public int? effectreqs = null;
         public List<int> passives = new List<int>(){};
         public bool nullprecull = false;
         public static void SetDefaults2(ref Projectile projectile){
             if(projectile.Name=="Blazing Chakram"){
-                projectile.GetGlobalProjectile<GunGlobalProjectile>(RefTheGun.mod).aioverflow=new List<float?>{};
+                projectile.GetGlobalProjectile<GunGlobalProjectile>(RefTheGun.mod).aioverflow=new List<TrueNullable<float>>{};
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit){

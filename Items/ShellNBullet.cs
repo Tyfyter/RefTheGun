@@ -12,6 +12,7 @@ using System.Text;
 using System.Reflection;
 using Terraria.Audio;
 using RefTheGun.Projectiles;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items
 {
@@ -66,7 +67,7 @@ Maybe I should stop with the puns.");
                 restoredefaults();
                 Ammo = MaxAmmo;
                 ammos = (int[])maxAmmos.Clone();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = false;
+                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
             }
         }
 

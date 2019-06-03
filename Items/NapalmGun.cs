@@ -12,6 +12,7 @@ using System.Text;
 using System.Reflection;
 using Terraria.Audio;
 using RefTheGun.Projectiles;
+using static RefTheGun.RefTheExtensions;
 
 namespace RefTheGun.Items
 {
@@ -82,11 +83,19 @@ namespace RefTheGun.Items
 		}
 		public override void OnHitEffect(Projectile projectile){
 			Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheTitans>(), (int)(projectile.damage/1.5), 0, projectile.owner, ai1:(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3);
-			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[0]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3;
-			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[1]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?1:1.5f;
-			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[2]=DustID.AmberBolt;
-			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[3]=1;
-			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[5]=-0.0625f;
+			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[0]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3;
+			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[1]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?1:1.5f;
+			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[2]=DustID.AmberBolt;
+			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[3]=1;
+			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[5]=-0.0625f;
+			a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow.MergeIn(new List<TrueNullable<float>>(){(
+				projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3,
+				(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?1:1.5f,
+				DustID.AmberBolt,
+				1,
+				null,
+				-0.0625f
+			});
 			a.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
 			projectile.GetGlobalProjectile<GunGlobalProjectile>().effectonhit=false;
 			a.GetGlobalProjectile<GunGlobalProjectile>().passives = projectile.GetGlobalProjectile<GunGlobalProjectile>().passives;

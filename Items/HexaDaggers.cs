@@ -13,6 +13,7 @@ using System.Reflection;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using RefTheGun.Projectiles;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items
 {

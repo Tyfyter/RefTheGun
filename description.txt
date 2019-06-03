@@ -7,15 +7,22 @@ Changelog:
 1.2:
 Slightly nerfed dark souls references.
 Fixed stuck chime bug.
+Added "Schrodinger's ranged weapon".
+Added crossbow (is crossbow).
+Added plague crossbow (is more kill).
+Added Hexagun (instead of turning things into chickens it just does more things that I programmed it to do. Now that's real magic!).
+Added "Tactical" Pistol.
+Switched to a superior nullable type, but that will be meaningless to anyone who hasn't used System.Nullable<T>.
 
 1.1:
 Gungeon bandoleer now has infinite slots.
 Gungeon bandoleer now generally works better.
 Added a few more passives (Alpha Bullets, Omega bullets, etc.)
 Gave the gungeon bandoleer its own texture.
+Added "Schrodinger's ranged weapon"
 
 1.0:
-Technically out of beta now.
+Technically out of open beta now.
 Finally actually added passive items.
 Added a knife. It's kind of cool.
 Fixed Nightwatch Ogris not using multishot (and added yet another "unintentional feature")

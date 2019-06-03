@@ -99,9 +99,9 @@ namespace RefTheGun.Items
 			Player player = Main.player[item.owner];
 			//float scale = 0.7f;
 			try{
-			if (player.GetModPlayer<GunPlayer>().bulletPoisonChance>0){
-				if(mod.TextureExists("Items/Nailgun_Fallout"))spriteBatch.Draw(mod.GetTexture("Items/Nailgun_Fallout"), position/*+new Vector2(25,17)*/, new Rectangle(0,0,50,36), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
-			}else if(mod.TextureExists("Items/Nailgun"))spriteBatch.Draw(mod.GetTexture("Items/Nailgun"), position/*+new Vector2(20,17)*/, new Rectangle(0,0,40,34), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
+				if (player.GetModPlayer<GunPlayer>().bulletPoisonChance>0){
+					if(mod.TextureExists("Items/Nailgun_Fallout"))spriteBatch.Draw(mod.GetTexture("Items/Nailgun_Fallout"), position/*+new Vector2(25,17)*/, new Rectangle(0,0,50,36), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
+				}else if(mod.TextureExists("Items/Nailgun"))spriteBatch.Draw(mod.GetTexture("Items/Nailgun"), position/*+new Vector2(20,17)*/, new Rectangle(0,0,40,34), drawColor, 0, new Vector2(), scale, SpriteEffects.None, 0);
 			}
 			catch (System.Exception){
 				return true;

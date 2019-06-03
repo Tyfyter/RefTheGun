@@ -13,6 +13,7 @@ using System.Reflection;
 using Terraria.Audio;
 using RefTheGun.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items{
 	public class HeroBow : RefTheItem{
@@ -63,7 +64,7 @@ namespace RefTheGun.Items{
             if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
 				Ammo = MaxAmmo;
                 restoredefaults();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = false;
+                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
             }
 		}
         public override void HoldStyle(Player player){

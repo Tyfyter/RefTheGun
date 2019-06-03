@@ -1,5 +1,5 @@
 author = Tyfyter (Tyfyter2002 on steam)
-version = 1.1
+version = 1.2
 homepage = https://sites.google.com/view/tyfyterpoorlymoddingterraria/home
 displayName = Reference the Gungeon
 languageVersion = 6
