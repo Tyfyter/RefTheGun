@@ -94,16 +94,22 @@ namespace RefTheGun
                     break;
                 }
             }
-			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(DungeonChests)];
+			bool flag = false;
+			List<int> DungeonChests2 = DungeonChests;
+			for(int i = 0; i<DungeonChests.Count; i++){
+				int c = Main.rand.Next(DungeonChests2);
+				Chest chestc = Main.chest[c];//Main.chest[Main.rand.Next(DungeonChests)];
 				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
 						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<GunItemBelt>());
+						flag = true;
 						break;
 					}
 				}
+				DungeonChests2.Remove(c);
+				if(flag)break;
 			}
 			Chest chestd = Main.chest[Main.rand.Next(DungeonChests)];
 			for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)

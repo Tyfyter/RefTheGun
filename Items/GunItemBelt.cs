@@ -47,7 +47,8 @@ namespace RefTheGun.Items
         }
 		public override void SetStaticDefaults(){
 			DisplayName.SetDefault("Gungeon bandoleer");
-			Tooltip.SetDefault(@"Great for storing everything you need... except weapons... and ammo...");
+			Tooltip.SetDefault(@"Great for storing everything you need... except weapons... and ammo...
+Right click to open passive UI.");
 		}
 		public override void SetDefaults(){
             item.CloneDefaults(ItemID.GolemTrophy);
@@ -67,6 +68,14 @@ namespace RefTheGun.Items
             item.useTime = 20;
             item.uniqueStack = true;
 		}
+        public override void AddRecipes(){
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Leather, 10);
+			recipe.AddIngredient(ItemID.Bone, 6);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+        }
         public override void UpdateInventory(Player player){
             /*
             if(pcount!=passives.Count){

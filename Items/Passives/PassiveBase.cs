@@ -8,5 +8,12 @@ namespace RefTheGun.Items.Passives {
             return true;
         }
         public virtual void Apply(Player player){}
+
+        public override void SetStaticDefaults(){
+            Tooltip.SetDefault("Equip this using the Gungeon bandoleer (because I couldn't find a better way to store passives).");
+        }
+        public override void SetDefaults(){
+            item.rare+=3;
+        }
     }
 }

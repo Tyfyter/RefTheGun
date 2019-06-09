@@ -4,6 +4,9 @@ Enter the Gungeon is a pretty cool game though, you should check it out!
 No, this was not sponsored.
 
 Changelog:
+1.2.0.1:
+Gungeon bandoleer fixes.
+
 1.2:
 Slightly nerfed dark souls references.
 Fixed stuck chime bug.

@@ -4,6 +4,7 @@ namespace RefTheGun.Items.Passives {
     public class AlphaBullets : PassiveBase {
         public override void SetStaticDefaults(){
             DisplayName.SetDefault("Alpha Bullets");
+            base.SetStaticDefaults();
         }
         public override void Apply(Player player){
             if(player.HeldItem.modItem != null)

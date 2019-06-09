@@ -5,6 +5,7 @@ namespace RefTheGun.Items.Passives {
         bool syn = false;
         public override void SetStaticDefaults(){
             DisplayName.SetDefault("Scattershot");
+            base.SetStaticDefaults();
         }
         public override void Apply(Player player){
             player.rangedDamage*=0.4f;
