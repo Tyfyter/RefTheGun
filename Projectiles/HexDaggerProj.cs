@@ -35,6 +35,7 @@ namespace RefTheGun.Projectiles
             projectile.width = 17;
             projectile.height = 17;
             projectile.extraUpdates+=4;
+            projectile.hide = true;
         }
         public override void AI(){
             if(projectile.velocity.Length()>0)projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X)+MathHelper.ToRadians(60);

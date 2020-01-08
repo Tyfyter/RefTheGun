@@ -60,6 +60,6 @@ Only guns are Fightsabre, Marine Sidearm(using its original name), Sticky Crossb
 
 Special Thanks to:
 The Tmodloader dev team, without them, this wouldn't be possible... not just because they developed the api, also because I have no clue what I'm doing a quarter of the time and half of that results in glitch items and crashes (the other half makes "features")
-Dodge roll games, they inspired the three least complex items in this mod, but only one of them is simple or boring.
 The other people in the tmodloader discord (Mostly Dark;Light tbh)
+Dodge roll games, they inspired this mod and ten of the items in it.
 And the 23 people who downloaded version 0.1 (especially #23, who downloaded it while I was developing 0.1.1, but will likely never know)
