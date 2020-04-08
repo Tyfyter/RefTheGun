@@ -35,7 +35,7 @@ namespace RefTheGun.Projectiles
         public bool nullprecull = false;
         public static void SetDefaults2(ref Projectile projectile){
             if(projectile.Name=="Blazing Chakram"){
-                projectile.GetGlobalProjectile<GunGlobalProjectile>(RefTheGun.mod).aioverflow=new List<TrueNullable<float>>{};
+                projectile.GetGlobalProjectile<GunGlobalProjectile>().aioverflow=new List<TrueNullable<float>>{};
             }
         }
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit){
@@ -72,8 +72,8 @@ namespace RefTheGun.Projectiles
                 if(player.channel){
                     projectile.ai[0] = 0;
                     projectile.velocity = new Vector2(12.5f*((projectile.Center - Main.MouseWorld).Length()/100), 0).RotatedBy((projectile.Center - Main.MouseWorld).ToRotation()+MathHelper.ToRadians(180));
-                    projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).timesincestop+=5;
-                    projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).stopping=2;
+                    projectile.GetGlobalProjectile<GunGlobalProjectile>().timesincestop+=5;
+                    projectile.GetGlobalProjectile<GunGlobalProjectile>().stopping=2;
                 }
                 if(aioverflow.Count>=1)for(int i = 0; i < aioverflow.Count; i++){
                     if(aioverflow[i]!=null)if(Main.item[(int)aioverflow[i]].active){
@@ -88,22 +88,22 @@ namespace RefTheGun.Projectiles
                 switch (projectile.Name)
                 {
                     case "Lightning Spear":
-                    Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 2);
+                    Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), ModContent.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 2);
                     a.timeLeft = 10;
-                    a.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures=true;
-                    a.GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = GlowColor;
+                    a.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
+                    a.GetGlobalProjectile<GunGlobalProjectile>().GlowColor = GlowColor;
                     break;
                     case "Great Lightning Spear":
-                    Projectile b = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 1);
+                    Projectile b = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), ModContent.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 1);
                     b.timeLeft = 7;
-                    b.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures=true;
-                    b.GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = GlowColor;
+                    b.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
+                    b.GetGlobalProjectile<GunGlobalProjectile>().GlowColor = GlowColor;
                     break;
                     case "Sunlight Spear":
-                    Projectile c = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 0);
+                    Projectile c = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), ModContent.ProjectileType<WrathoftheGods>(), projectile.damage, 0, projectile.owner, 0);
                     c.timeLeft = 4;
-                    c.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures=true;
-                    c.GetGlobalProjectile<GunGlobalProjectile>(mod).GlowColor = GlowColor;
+                    c.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
+                    c.GetGlobalProjectile<GunGlobalProjectile>().GlowColor = GlowColor;
                     break;
                     default:
                     break;

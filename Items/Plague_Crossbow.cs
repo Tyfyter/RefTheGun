@@ -77,7 +77,7 @@ namespace RefTheGun.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType<Crossbow>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Crossbow>(), 1);
 			recipe.AddIngredient(ItemID.JungleSpores, 10);
 			recipe.AddIngredient(ItemID.QueenBeeTrophy, 1);
 			recipe.AddTile(TileID.HeavyWorkBench);

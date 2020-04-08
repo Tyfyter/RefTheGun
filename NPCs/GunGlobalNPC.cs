@@ -105,19 +105,19 @@ namespace RefTheGun.NPCs
 		public override void NPCLoot(NPC npc){
 			if(npc.type==NPCID.AngryBones||npc.type==NPCID.DarkCaster){
 				if(Main.rand.NextFloat(0,10)<= (Main.expertMode ? 3 : 1.5)){
-					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), mod.ItemType<LittleBell>());
+					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), ModContent.ItemType<LittleBell>());
 				}
 			}else if(npc.type==NPCID.SkeletronHead||npc.type==NPCID.SkeletronHand){
 				if(Main.rand.NextFloat(0,10)<= (Main.expertMode ? 10 : 0.75)){
-					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), mod.ItemType<ClericChime>());
+					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), ModContent.ItemType<ClericChime>());
 				}
 			}else if(npc.type==NPCID.WallofFlesh||npc.type==NPCID.WallofFleshEye){
 				if(Main.rand.NextFloat(0,10)<= (Main.expertMode ? 10 : 0.75)){
-					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), mod.ItemType<WoFChime>());
+					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), ModContent.ItemType<WoFChime>());
 				}
 			}else if(npc.type==NPCID.Golem){
 				if(Main.rand.NextFloat(0,10)<= (Main.expertMode ? 7.5 : 4)){
-					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), mod.ItemType<GolemHeart>());
+					Item.NewItem(npc.position, new Vector2(npc.width,npc.height), ModContent.ItemType<GolemHeart>());
 				}
 			}
 			for(int i = 0; i<Buffs.Count; i++){

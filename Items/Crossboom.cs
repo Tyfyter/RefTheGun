@@ -69,7 +69,9 @@ namespace RefTheGun.Items
 		}
 		public override void SpecialReloadProj(Player player, int ammoleft){
 			int dmg = item.damage;
-			GetWeaponDamage(player, ref dmg);
+			float add = 0,mult = 1,flat = 0;
+			ModifyWeaponDamage(player, ref add, ref mult, ref flat);
+			dmg = (int)((dmg+add)*mult+flat);
 			foreach(NPC Targ in hitenemies){
 				//NPC Targ = Main.npc[targ];
 				//Projectile.NewProjectileDirect(Proj.position, new Vector2(), ProjectileID.SolarWhipSwordExplosion, Proj.damage*3, Proj.knockBack*2, Proj.owner);

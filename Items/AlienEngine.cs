@@ -107,7 +107,7 @@ namespace RefTheGun.Items
 			Vector2 Vel = new Vector2(speedX, speedY);
 			//player.velocity += (Vel.Normalized()*(float)Math.Min(Vel.Length(),((player.velocity+Vel).Length())-12.5));
 			player.velocity = ((player.velocity-Vel).Normalized())*(float)Math.Min((player.velocity-Vel).Length(),750);
-			type = mod.ProjectileType<Combustion>();
+			type = ModContent.ProjectileType<Combustion>();
 			float rot = (float)Math.Atan2((double)speedY, (double)speedX) + 1.57f;
             int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY), type, damage, knockBack, item.owner);
             Main.projectile[proj].hostile = false;

@@ -61,10 +61,10 @@ namespace RefTheGun.Items
 				}
             }else{
 				item.useStyle = 5;
-				player.GetModPlayer<GunPlayer>(mod).magsize=-2;
+				player.GetModPlayer<GunPlayer>().magsize=-2;
 				for(int i = 0; i < Main.projectile.Length; i++){
 					if(Main.projectile[i].owner == player.whoAmI && Main.projectile[i].Name=="Blazing Chakram" && Main.projectile[i].active){
-						player.GetModPlayer<GunPlayer>(mod).magsize=-1;
+						player.GetModPlayer<GunPlayer>().magsize=-1;
 						return false;
 					}
 				}
@@ -79,14 +79,14 @@ namespace RefTheGun.Items
             if(projectile.Name=="Blazing Chakram"){
 				projectile.ai[0] = 0;
 				//projectile.velocity = projectile.oldVelocity;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).timesincestop+=5;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).stopping=2;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().timesincestop+=5;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().stopping=2;
 				Vector2 diff = projectile.oldVelocity - projectile.velocity;
 				projectile.velocity -= diff*0.9f;
 			}
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             if(player.altFunctionUse == 2)return false;
 			type=ProjectileID.LightDisc;
 			speedX*=1.5f;
@@ -97,9 +97,9 @@ namespace RefTheGun.Items
             Main.projectile[proj].usesLocalNPCImmunity = true;
             Main.projectile[proj].localNPCHitCooldown = 3;
 			Main.projectile[proj].Name = "Blazing Chakram";
-			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
-			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideTexture = mod.GetTexture("Items/BlazingChakram");
+			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
+			Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().OverrideTexture = mod.GetTexture("Items/BlazingChakram");
 			Main.projectile[proj].extraUpdates++;
 			Main.projectile[proj].scale*=2f;
 			GunGlobalProjectile.SetDefaults2(ref Main.projectile[proj]);

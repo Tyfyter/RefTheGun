@@ -60,10 +60,10 @@ namespace RefTheGun.Items
 			base.UpdateInventory(player);
 		}
 		public float SpeedMultiplier(Player player){
-			return (4-Spread)/(player.GetModPlayer<GunPlayer>(mod).bullet20Slow?1f:1.75f);
+			return (4-Spread)/(player.GetModPlayer<GunPlayer>().bullet20Slow?1f:1.75f);
 		}
         public override bool CanUseItem(Player player){
-			ReloadTimeMax = (player.GetModPlayer<GunPlayer>(mod).bullet20Slow?25:60);
+			ReloadTimeMax = (player.GetModPlayer<GunPlayer>().bullet20Slow?25:60);
             if(player.altFunctionUse == 2){
 				item.UseSound = null;
 				item.useStyle = 1;
@@ -91,10 +91,10 @@ namespace RefTheGun.Items
 			recipe.AddRecipe();
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			if(modPlayer.bullet20Slow)type = 20;
             if(!modPlayer.Chairesy){
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType<DrawChair>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DrawChair>(), damage, knockBack, player.whoAmI);
 			}
             if(player.controlUseItem){
 				modPlayer.channelsword = 5;

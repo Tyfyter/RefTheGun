@@ -63,20 +63,20 @@ namespace RefTheGun {
         public override void SetControls(){
             if(!player.controlSmart)return;
             if(Math.Abs(PlayerInput.ScrollWheelDelta)<60)return;
-            if(player.HeldItem!=null)if(player.HeldItem.type!=mod.ItemType<Pandora>())return;
+            if(player.HeldItem!=null)if(player.HeldItem.type!=ModContent.ItemType<Pandora>())return;
             Main.PlaySound(12, player.Center);
             ((Pandora)player.HeldItem.modItem).tryFavScroll(PlayerInput.ScrollWheelDelta / -120);
 			PlayerInput.ScrollWheelDelta = 0;
         }
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource){
-            if(player.HasBuff(mod.BuffType<ToDBuff>())){
-                player.DelBuff(player.FindBuffIndex(mod.BuffType<ToDBuff>()));
+            if(player.HasBuff(ModContent.BuffType<ToDBuff>())){
+                player.DelBuff(player.FindBuffIndex(ModContent.BuffType<ToDBuff>()));
                 player.statLife+=player.statLifeMax2/25;
                 player.immuneTime+=120;
                 for(int i = 0; i < player.buffType.Length-1; i++){
                     if(Main.debuff[player.buffType[i]])player.DelBuff(i);
                 }
-                player.AddBuff(mod.BuffType<ToDCD>(), 7200);
+                player.AddBuff(ModContent.BuffType<ToDCD>(), 7200);
                 return false;
             }
             return true;
@@ -112,7 +112,7 @@ namespace RefTheGun {
         }
         public int GetBandoleerIndex(){
             for (int i = 0; i < player.inventory.Length; i++){
-                if(player.inventory[i].type==mod.ItemType<GunItemBelt>())return i;
+                if(player.inventory[i].type==ModContent.ItemType<GunItemBelt>())return i;
             }
             return -1;
         }

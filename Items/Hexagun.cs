@@ -84,7 +84,7 @@ namespace RefTheGun.Items
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType<Hexagun>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Hexagun>(), 1);
 			recipe.AddTile(TileID.HeavyWorkBench);
 			recipe.SetResult(ItemID.ShadowbeamStaff);
 			recipe.AddRecipe();
@@ -113,7 +113,7 @@ namespace RefTheGun.Items
 		public override void OnHitEffect(Projectile projectile){
 			switch ((int)projectile.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[0]){
 				case 2:
-				int a = Projectile.NewProjectile(projectile.position, new Vector2(), mod.ProjectileType<WrathoftheTitans>(), 85, 0, projectile.owner);
+				int a = Projectile.NewProjectile(projectile.position, new Vector2(), ModContent.ProjectileType<WrathoftheTitans>(), 85, 0, projectile.owner);
 				//Main.projectile[a].SetDefaults(Main.projectile[a].type);
 				Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().aioverflow.MergeIn(new List<TrueNullable<float>>(){null,null,null,null,0,0.15f,1});
 				Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
@@ -123,7 +123,7 @@ namespace RefTheGun.Items
 				Main.projectile[a].Name = "Blank";
 				break;
 				case 3:
-				int b = Projectile.NewProjectile(projectile.position, new Vector2(), mod.ProjectileType<WrathoftheTitans>(), 0, 0, projectile.owner);
+				int b = Projectile.NewProjectile(projectile.position, new Vector2(), ModContent.ProjectileType<WrathoftheTitans>(), 0, 0, projectile.owner);
 				//Main.projectile[b].SetDefaults(Main.projectile[b].type);
 				Main.projectile[b].GetGlobalProjectile<GunGlobalProjectile>().aioverflow.MergeIn(new List<TrueNullable<float>>(){0,4,182,0.9f,0,0,0});
 				Main.projectile[b].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
@@ -136,7 +136,7 @@ namespace RefTheGun.Items
 					projectile.timeLeft = 0;
 					break;
 				}
-				int c = Projectile.NewProjectile(projectile.position, new Vector2(), mod.ProjectileType<WrathoftheTitans>(), 46, 0, projectile.owner);
+				int c = Projectile.NewProjectile(projectile.position, new Vector2(), ModContent.ProjectileType<WrathoftheTitans>(), 46, 0, projectile.owner);
 				//Main.projectile[b].SetDefaults(Main.projectile[b].type);
 				Main.projectile[c].GetGlobalProjectile<GunGlobalProjectile>().aioverflow.MergeIn(new List<TrueNullable<float>>(){null,0.85f,264,0.1f,0,0.2f,0});
 				Main.projectile[c].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
@@ -171,7 +171,7 @@ namespace RefTheGun.Items
 				specialreloadproj = false;
 				break;
 				case 8:
-				Main.player[projectile.owner].AddBuff(mod.BuffType<ReloadBuff>(), 120);
+				Main.player[projectile.owner].AddBuff(ModContent.BuffType<ReloadBuff>(), 120);
 				break;
 				case 9:
 				target.StrikeNPC((target.lifeMax/13)+(int)(target.defense*0.49f),0,0);

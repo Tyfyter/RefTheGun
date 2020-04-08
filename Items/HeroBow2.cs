@@ -16,7 +16,7 @@ namespace RefTheGun.Items {
         }
 		public override void AddRecipes(){
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType<HeroBow>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<HeroBow>(), 1);
 			recipe.AddIngredient(ItemID.RangerEmblem, 1);
 			recipe.AddIngredient(ItemID.SoulofFright, 15);
 			recipe.AddTile(TileID.MythrilAnvil);

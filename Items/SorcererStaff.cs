@@ -62,7 +62,7 @@ namespace RefTheGun.Items
 		}
 
 		public override void HoldItem(Player player){
-			player.GetModPlayer<GunPlayer>(mod).guninfo = Spells[spell];
+			player.GetModPlayer<GunPlayer>().guninfo = Spells[spell];
 			base.HoldItem(player);
 		}
 		
@@ -138,7 +138,7 @@ namespace RefTheGun.Items
 			}
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			damage += (int)(SpellDamage[spell]*player.magicDamage);
             if(player.altFunctionUse == 2)return false;
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
@@ -159,7 +159,7 @@ namespace RefTheGun.Items
 				BloomPerShot = Spells[spell].Contains("Great") ? 2.5f : 4.5f;
 				SpreadLossSpeed = Spells[spell].Contains("Great") ? 0.03f : 0.029f;
 			}else if(Spells[spell].Contains("Soul Arrow")){
-				type=mod.ProjectileType<SoulArrow>();
+				type=ModContent.ProjectileType<SoulArrow>();
 				position+=new Vector2(speedX, speedY).Normalized().RotatedBy(90*player.direction)*3;
 			}else if(Spells[spell].Contains("Soul Spear")){
 				type=ProjectileID.SkyFracture;
@@ -183,11 +183,11 @@ namespace RefTheGun.Items
             	Ammo--;
 				return false;
 			}else if(Spells[spell]=="Soul Greatsword"){
-				type=mod.ProjectileType<SoulGreatsword>();
+				type=ModContent.ProjectileType<SoulGreatsword>();
 				speedX= 0;
 				speedY= 0;
 			}else if(Spells[spell]=="Farron Flashsword"){
-				type=mod.ProjectileType<FarronSlash>();
+				type=ModContent.ProjectileType<FarronSlash>();
 			}
             int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(MathHelper.ToRadians(Spread)), type, damage, knockBack, item.owner);
             Main.projectile[proj].hostile = false;
@@ -205,8 +205,8 @@ namespace RefTheGun.Items
 					Main.projectile[proj].penetrate = -1;
 				}
 			}else if(Spells[spell].Contains("Soul Geyser")){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
 				Main.projectile[proj].timeLeft = Main.projectile[proj].timeLeft/140;
             	Main.projectile[proj].usesLocalNPCImmunity = true;
             	Main.projectile[proj].localNPCHitCooldown = 0;

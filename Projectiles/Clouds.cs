@@ -100,7 +100,7 @@ namespace RefTheGun.Projectiles
                 target.defense-=Main.rand.Next((int)(damage*0.9),(int)(damage*1.1));
             }if(Main.rand.Next(0,14)==0){
                 for(int i = Main.rand.Next(0,14); i<20 ;i++)Dust.NewDustDirect(projectile.Center,0,0,4, newColor:new Color(Color.YellowGreen.R,Color.YellowGreen.G,Color.YellowGreen.B, 100));
-                target.GetGlobalNPC<GunGlobalNPC>(mod).dmgmult += (float)Main.rand.NextDouble();
+                target.GetGlobalNPC<GunGlobalNPC>().dmgmult += (float)Main.rand.NextDouble();
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor){

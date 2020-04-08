@@ -42,7 +42,7 @@ namespace RefTheGun.Projectiles
 		}
         public override void AI(){
             Player player = Main.player[projectile.owner];
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             modPlayer.Heresy = true;
             Vector2 mousePos = Main.MouseWorld;
             oldPos2 = oldPos;
@@ -52,7 +52,7 @@ namespace RefTheGun.Projectiles
             projectile.position = player.position + (new Vector2(0,12)) + new Vector2(0, (player.controlUseTile&&stab<=0)?(stab<0?47:52):42).RotatedBy(projectile.rotation - 0.79919);
             projectile.velocity = new Vector2();
             /*for (int i = 0; i<Main.projectile.Length; i++){
-                if (projectile.Hitbox.Intersects(Main.projectile[i].Hitbox)&&Main.projectile[i].type != mod.ProjectileType<HeresySword>()){
+                if (projectile.Hitbox.Intersects(Main.projectile[i].Hitbox)&&Main.projectile[i].type != ModContent.ProjectileType<HeresySword>()){
                     //projectile.damage += (int)(Main.projectile[i].damage*0.1f);
                     //Main.projectile[i].velocity.;
                 }
@@ -88,7 +88,7 @@ namespace RefTheGun.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection){
             Player player = Main.player[projectile.owner];
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             if(projectile.timeLeft>=599){
                 oldPos = projectile.position;
                 crit = true;
@@ -97,7 +97,7 @@ namespace RefTheGun.Projectiles
                 stab--;
                 oldPos2 = oldPos-(HB.Direction.toVector2()/12);
                 target.velocity += (projectile.position-oldPos2)*0.85f;
-                projectile.GetGlobalProjectile<GunGlobalProjectile>().firedwith.PostShoot(Projectile.NewProjectile(projectile.Center, new Vector2(), mod.ProjectileType<HeresyAlt>(), damage, 0, player.whoAmI));
+                projectile.GetGlobalProjectile<GunGlobalProjectile>().firedwith.PostShoot(Projectile.NewProjectile(projectile.Center, new Vector2(), ModContent.ProjectileType<HeresyAlt>(), damage, 0, player.whoAmI));
                 projectile.Kill();
                 return;
             }

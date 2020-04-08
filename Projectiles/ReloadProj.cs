@@ -30,16 +30,16 @@ namespace RefTheGun.Projectiles
         {                                                           // |
             projectile.velocity = new Vector2();
             Player player = Main.player[projectile.owner];
-            if(!Main.player[projectile.owner].GetModPlayer<GunPlayer>(mod).Reloading)projectile.Kill();
+            if(!Main.player[projectile.owner].GetModPlayer<GunPlayer>().Reloading)projectile.Kill();
             if(projectile.ai[1]!=Main.player[projectile.owner].selectedItem)projectile.Kill();
             projectile.Center = player.MountedCenter - new Vector2(0, player.height*0.75f);
             if(projectile.timeLeft <= 1){
-                Main.player[projectile.owner].GetModPlayer<GunPlayer>(mod).Reloaded = true;
+                Main.player[projectile.owner].GetModPlayer<GunPlayer>().Reloaded = true;
                 reloaded = true;
             }
         }
         public override void Kill(int timeLeft){
-            if(!reloaded)Main.player[projectile.owner].GetModPlayer<GunPlayer>(mod).Reloading = false;
+            if(!reloaded)Main.player[projectile.owner].GetModPlayer<GunPlayer>().Reloading = false;
         }
 
         

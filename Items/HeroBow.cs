@@ -56,15 +56,15 @@ namespace RefTheGun.Items{
 			Ammo = MaxAmmo;
 		}
 		public override void HoldItem(Player player){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			modPlayer.roundsinmag = Ammo;
-			modPlayer.magsize = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>(mod).MagMultiply)*/;
+			modPlayer.magsize = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>().MagMultiply)*/;
 			modPlayer.guninfo = GetArrowName(mode);
 			if(!player.controlUseTile&&timesinceswitch>0)timesinceswitch--;
-            if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
+            if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded){
 				Ammo = MaxAmmo;
                 restoredefaults();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
+                Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded = player.HasBuff(ModContent.BuffType<ReloadBuff>());
             }
 		}
         public override void HoldStyle(Player player){
@@ -87,15 +87,15 @@ namespace RefTheGun.Items{
 		}
 		void Reload(){
 			Player player = Main.player[item.owner];
-			if(!Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading&&!Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
-                if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return;
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading = true;
-                int proj = Projectile.NewProjectile(player.Center, new Vector2(), mod.ProjectileType("ReloadProj"), 0, 0, player.whoAmI, (int)(ReloadTimeMax*reloadmult), player.selectedItem);
+			if(!Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading&&!Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded){
+                if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading)return;
+                Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading = true;
+                int proj = Projectile.NewProjectile(player.Center, new Vector2(), ModContent.ProjectileType<ReloadProj>(), 0, 0, player.whoAmI, (int)(ReloadTimeMax*reloadmult), player.selectedItem);
                 Main.projectile[proj].timeLeft = Math.Max((int)(ReloadTimeMax*reloadmult),2);
 			}
 		}
         public override bool CanUseItem(Player player){
-			if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return false;
+			if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading)return false;
             if(player.altFunctionUse == 2){
 				item.useStyle = 1;
 				item.noUseGraphic = true;
@@ -180,7 +180,7 @@ namespace RefTheGun.Items{
 		public override void OnHitEffect(Projectile projectile, NPC target){
 			switch ((int)projectile.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[0]){
 				case 1:
-				Projectile.NewProjectileDirect(projectile.Center, projectile.velocity/2, mod.ProjectileType<Combustion>(), projectile.damage, 0, projectile.owner).rotation = (float)Math.Atan2((double)projectile.velocity.X, (double)projectile.velocity.Y);
+				Projectile.NewProjectileDirect(projectile.Center, projectile.velocity/2, ModContent.ProjectileType<Combustion>(), projectile.damage, 0, projectile.owner).rotation = (float)Math.Atan2((double)projectile.velocity.X, (double)projectile.velocity.Y);
 				target.AddBuff(BuffID.OnFire, (int)(600*projectile.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[1]/45));
 				break;
 				case 2:

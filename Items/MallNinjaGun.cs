@@ -63,12 +63,12 @@ namespace RefTheGun.Items
             if(player.altFunctionUse == 2){
 				item.noUseGraphic = true;
 				item.autoReuse = false;
-				return !Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading;
+				return !Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading;
             }
 			item.noUseGraphic = false;
 			if(player.altFunctionUse == 1)item.autoReuse = false;
 			restoredefaults();
-			return (Ammo > 0 || MaxAmmo <= 0) && !Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading;
+			return (Ammo > 0 || MaxAmmo <= 0) && !Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading;
         }
 		public override void restoredefaults(){
 			item.useAmmo = AmmoID.Bullet;
@@ -98,10 +98,10 @@ namespace RefTheGun.Items
 			recipe.AddRecipe();
 		}
 		public override void PostShoot(int p){
-			if(Main.projectile[p].type!=mod.ProjectileType<MallNinjaStab>()){
+			if(Main.projectile[p].type!=ModContent.ProjectileType<MallNinjaStab>()){
 				ammotime = Ammo==0?250:300;
 			}else{
-				Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
+				Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>().firedwith = (RefTheItem)item.modItem;
 				Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
 			}
 		}
@@ -121,13 +121,13 @@ namespace RefTheGun.Items
 		}
 		public override void ReloadFinishHook(Player player, int ammoleft){
 			ammotime = -1;
-			player.AddBuff(mod.BuffType<ReloadStabBuff>(), 60);
+			player.AddBuff(ModContent.BuffType<ReloadStabBuff>(), 60);
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			if(player.GetModPlayer<GunPlayer>().Reloading)return false;
 			if(player.itemAnimation==item.useAnimation-1){
 				if(player.altFunctionUse==2){
-					type = mod.ProjectileType<MallNinjaStab>();
+					type = ModContent.ProjectileType<MallNinjaStab>();
 					base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 					if(ammotime==0){
 						Reload();
@@ -140,7 +140,7 @@ namespace RefTheGun.Items
 				if(!player.controlUseItem&&player.itemAnimation<13)player.itemAnimation = 0;
 				return false;
 			}
-			if(player.HasBuff(mod.BuffType<ReloadStabBuff>())){
+			if(player.HasBuff(ModContent.BuffType<ReloadStabBuff>())){
 				damage = (int)(damage*2.45f);
 				knockBack*=5;
 			}

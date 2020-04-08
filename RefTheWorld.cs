@@ -25,7 +25,8 @@ namespace RefTheGun
             List<int> JungleChests = new List<int>{};
             List<int> SkyChests = new List<int>{};
             List<int> IceChests = new List<int>{};
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+
+			for (int chestIndex = 0; chestIndex < Main.chest.Length; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
 				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
@@ -85,25 +86,31 @@ namespace RefTheGun
 					}
 				}
 			}
-            Chest chestb = Main.chest[Main.rand.Next(DungeonChests)];
-            for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-            {
-                if (chestb.item[inventoryIndex].type == 0)
-                {
-                    chestb.item[inventoryIndex].SetDefaults(mod.ItemType<ClericChime>());
-                    break;
-                }
-            }
+			int ch = Main.rand.Next(DungeonChests);
+			if(DungeonChests.Count>0&&ch>=0&&ch<Main.chest.Length){
+            Chest chestb = Main.chest[ch];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
+				{
+					if (chestb.item[inventoryIndex].type == 0)
+					{
+						chestb.item[inventoryIndex].SetDefaults(ModContent.ItemType<ClericChime>());
+						break;
+					}
+				}
+			}
+
 			bool flag = false;
 			List<int> DungeonChests2 = DungeonChests;
 			for(int i = 0; i<DungeonChests.Count; i++){
+				if(DungeonChests2.Count<1)break;
 				int c = Main.rand.Next(DungeonChests2);
+				if(c<0||c>=Main.chest.Length)break;
 				Chest chestc = Main.chest[c];//Main.chest[Main.rand.Next(DungeonChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<GunItemBelt>());
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<GunItemBelt>());
 						flag = true;
 						break;
 					}
@@ -111,66 +118,87 @@ namespace RefTheGun
 				DungeonChests2.Remove(c);
 				if(flag)break;
 			}
-			Chest chestd = Main.chest[Main.rand.Next(DungeonChests)];
-			for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-			{
-				if (chestd.item[inventoryIndex].type == 0)
+			ch = Main.rand.Next(DungeonChests);
+			if(IceChests.Count>0&&ch>=0&&ch<Main.chest.Length){
+				Chest chestd = Main.chest[ch];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
-					chestd.item[inventoryIndex].SetDefaults(mod.ItemType<Plus1Bullets>());
-					break;
+					if (chestd.item[inventoryIndex].type == 0)
+					{
+						chestd.item[inventoryIndex].SetDefaults(ModContent.ItemType<Plus1Bullets>());
+						break;
+					}
 				}
 			}
+
 			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(JungleChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				if(JungleChests.Count<1)break;
+				int c = Main.rand.Next(JungleChests);
+				if(c<0||c>=Main.chest.Length)break;
+				Chest chestc = Main.chest[c];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<PoisonBullets>());
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<PoisonBullets>());
+						break;
+					}
+				}
+			}
+
+			for(int i = Main.rand.Next(10); i<10; i++){
+				if(IceChests.Count<1)break;
+				int c = Main.rand.Next(IceChests);
+				if(c<0||c>=Main.chest.Length)break;
+				Chest chestc = Main.chest[c];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
+				{
+					if (chestc.item[inventoryIndex].type == 0)
+					{
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<ColdBullets>());
 						break;
 					}
 				}
 			}
 			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(IceChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				if(HellChests.Count<1)break;
+				int c = Main.rand.Next(HellChests);
+				if(c<0||c>=Main.chest.Length)break;
+				Chest chestc = Main.chest[c];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<ColdBullets>());
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<HotBullets>());
 						break;
 					}
 				}
 			}
 			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(HellChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				if(SkyChests.Count<1)break;
+				int c = Main.rand.Next(SkyChests);
+				if(c<0||c>=Main.chest.Length)break;
+				Chest chestc = Main.chest[c];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<HotBullets>());
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<Scattershot>());
 						break;
 					}
 				}
 			}
+
 			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(SkyChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+				if(SkyChests.Count<1)break;
+				int c = Main.rand.Next(SkyChests);
+				if(c<0||c>=Main.chest.Length)break;
+				Chest chestc = Main.chest[c];
+				for (int inventoryIndex = 0; inventoryIndex < 39; inventoryIndex++)
 				{
 					if (chestc.item[inventoryIndex].type == 0)
 					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<Scattershot>());
-						break;
-					}
-				}
-			}
-			for(int i = Main.rand.Next(10); i<10; i++){
-				Chest chestc = Main.chest[Main.rand.Next(SkyChests)];
-				for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-				{
-					if (chestc.item[inventoryIndex].type == 0)
-					{
-						chestc.item[inventoryIndex].SetDefaults(mod.ItemType<AoPitlord>());
+						chestc.item[inventoryIndex].SetDefaults(ModContent.ItemType<AoPitlord>());
 						break;
 					}
 				}

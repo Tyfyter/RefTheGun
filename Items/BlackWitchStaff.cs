@@ -61,7 +61,7 @@ namespace RefTheGun.Items
 		}
 
 		public override void HoldItem(Player player){
-			player.GetModPlayer<GunPlayer>(mod).guninfo = Spells[spell];
+			player.GetModPlayer<GunPlayer>().guninfo = Spells[spell];
 			base.HoldItem(player);
 		}
         public override bool CanUseItem(Player player){
@@ -91,10 +91,10 @@ namespace RefTheGun.Items
 				if(Spells[spell]=="Lightning Arrow"){
 					item.channel = true;
 				}else if(Spells[spell]=="Way of White Corona"){
-					player.GetModPlayer<GunPlayer>(mod).magsize=-2;
+					player.GetModPlayer<GunPlayer>().magsize=-2;
 					for(int i = 0; i < Main.projectile.Length; i++){
 						if(Main.projectile[i].owner == player.whoAmI && Main.projectile[i].Name=="Way of White Corona" && Main.projectile[i].active){
-							player.GetModPlayer<GunPlayer>(mod).magsize=-1;
+							player.GetModPlayer<GunPlayer>().magsize=-1;
 							return false;
 						}
 					}
@@ -165,12 +165,12 @@ namespace RefTheGun.Items
 			}else if(projectile.Name=="Way of White Corona"){
 				projectile.ai[0] = 0;
 				projectile.velocity = projectile.oldVelocity;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).timesincestop+=5;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).stopping=2;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().timesincestop+=5;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().stopping=2;
 			}
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			damage = (int)(SpellDamage[spell]*damage);
             if(player.altFunctionUse == 2)return false;
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
@@ -191,7 +191,7 @@ namespace RefTheGun.Items
 				BloomPerShot = Spells[spell].Contains("Great") ? 2.5f : 4.5f;
 				SpreadLossSpeed = Spells[spell].Contains("Great") ? 0.03f : 0.029f;
 			}else if(Spells[spell].Contains("Soul Arrow")){
-				type=mod.ProjectileType<SoulArrow>();
+				type=ModContent.ProjectileType<SoulArrow>();
 				position+=new Vector2(speedX, speedY).Normalized().RotatedBy(90*player.direction)*3;
 			}else if(Spells[spell].Contains("Soul Spear")){
 				type=ProjectileID.SkyFracture;
@@ -215,23 +215,23 @@ namespace RefTheGun.Items
             	Ammo--;
 				return false;
 			}else if(Spells[spell]=="Soul Greatsword"){
-				type=mod.ProjectileType<SoulGreatsword>();
+				type=ModContent.ProjectileType<SoulGreatsword>();
 				speedX= 0;
 				speedY= 0;
 			}else if(Spells[spell]=="Farron Flashsword"){
-				type=mod.ProjectileType<FarronSlash>();
+				type=ModContent.ProjectileType<FarronSlash>();
 			}else if(Spells[spell]=="Sunlight Spear"){
 				type = ProjectileID.BulletHighVelocity;
 				speedX*=1.5f;
 				speedY*=1.5f;
 			}else if(Spells[spell]=="Lightning Arrow"){
-				type=mod.ProjectileType<LightningBow>();
+				type=ModContent.ProjectileType<LightningBow>();
 			}else if(Spells[spell]=="Way of White Corona"){
 				type=ProjectileID.LightDisc;
 				speedX*=1.5f;
 				speedY*=1.5f;
 			}else if(Spells[spell].Contains("Wrath of the Gods")){
-				type=mod.ProjectileType<WrathoftheGods>();
+				type=ModContent.ProjectileType<WrathoftheGods>();
 				position = player.Center;
 				knockBack=0;
 				speedX=0;
@@ -248,16 +248,16 @@ namespace RefTheGun.Items
 					Main.projectile[a].localNPCHitCooldown = 3;
 					Main.projectile[a].timeLeft/=2;
 					Main.projectile[a].penetrate = -1;
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideTextureInt = type;
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = new Color(255,215,50)*10;
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).render = false;
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().OverrideTextureInt = type;
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().Color = new Color(255,215,50)*10;
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().render = false;
 					
 				}
             	Ammo--;
 				return false;
 			}else if(Spells[spell]=="Lifehunt Scythe"){
-				type=mod.ProjectileType<LifehuntScythe>();
+				type=ModContent.ProjectileType<LifehuntScythe>();
 			}
             int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(MathHelper.ToRadians(Spread)), type, damage, knockBack, item.owner);
             Main.projectile[proj].hostile = false;
@@ -275,25 +275,25 @@ namespace RefTheGun.Items
 					Main.projectile[proj].penetrate = -1;
 				}
 			}else if(Spells[spell].Contains("Soul Geyser")){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
 				Main.projectile[proj].timeLeft = Main.projectile[proj].timeLeft/140;
             	Main.projectile[proj].usesLocalNPCImmunity = true;
             	Main.projectile[proj].localNPCHitCooldown = 0;
 			}else if(Spells[spell]=="Farron Flashsword"){
 				return false;
 			}else if(Spells[spell]=="Sunlight Spear"){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = new Color(255,215,50,25);
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideTextureInt = ProjectileID.JavelinFriendly;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideTextureMode = 1;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).render = false;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().Color = new Color(255,215,50,25);
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().OverrideTextureInt = ProjectileID.JavelinFriendly;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().OverrideTextureMode = 1;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().render = false;
 				Main.projectile[proj].extraUpdates=1;
 				Main.projectile[proj].penetrate=-1;
 				Main.projectile[proj].ignoreWater = false;
 			}else if(Spells[spell].Contains("Way of White Corona")){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
 				Main.projectile[proj].extraUpdates++;
 			}
             if(MaxAmmo>0)Ammo--;

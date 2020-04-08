@@ -86,7 +86,7 @@ namespace RefTheGun.Items
 		bool GC(int p){
 			if(!Main.projectile[p].active)return true;
 			if(Main.projectile[p].modProjectile==null)return true;
-			if(Main.projectile[p].type!=mod.ProjectileType<NeedlerProj>())return true;
+			if(Main.projectile[p].type!=ModContent.ProjectileType<NeedlerProj>())return true;
 			return false;
 		}
 		public override void AddRecipes()
@@ -114,11 +114,11 @@ namespace RefTheGun.Items
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			if(player.altFunctionUse==2||player.GetModPlayer<GunPlayer>().Reloading)return false;
-            /*if(player.GetModPlayer<GunPlayer>().bulletPoisonChance>0&&!firedshots.Exists(hasActiveDraw))*/firedshots.Add(Projectile.NewProjectile(position, new Vector2(), mod.ProjectileType<DrawNeedler>(), damage, knockBack, item.owner));
+            /*if(player.GetModPlayer<GunPlayer>().bulletPoisonChance>0&&!firedshots.Exists(hasActiveDraw))*/firedshots.Add(Projectile.NewProjectile(position, new Vector2(), ModContent.ProjectileType<DrawNeedler>(), damage, knockBack, item.owner));
 			if(player.itemAnimation==item.useAnimation-1){
-				type = mod.ProjectileType<NeedlerProj>();
+				type = ModContent.ProjectileType<NeedlerProj>();
 				if(indevkindofsatisfyingmode){
-					type = mod.ProjectileType<HexDaggerProj>();
+					type = ModContent.ProjectileType<HexDaggerProj>();
 				}
 				Main.PlaySound(useSound, position);
 			}else{
@@ -139,7 +139,7 @@ namespace RefTheGun.Items
 			return true;
 		}
 		public bool hasActiveDraw(int i){
-			if(Main.projectile[i].type==mod.ProjectileType<DrawNeedler>()&&Main.projectile[i].active)return true;
+			if(Main.projectile[i].type==ModContent.ProjectileType<DrawNeedler>()&&Main.projectile[i].active)return true;
 			return false;
 		}
 	}

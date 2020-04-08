@@ -94,7 +94,7 @@ namespace RefTheGun.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType<Reverence_Single>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Reverence_Single>(), 1);
 			recipe.AddIngredient(ItemID.VenusMagnum, 1);
 			recipe.AddIngredient(ItemID.FragmentVortex, 10);
 			recipe.AddTile(TileID.LunarCraftingStation);

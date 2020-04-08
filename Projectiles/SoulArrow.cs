@@ -30,9 +30,9 @@ namespace RefTheGun.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection){
             if(projectile.Name=="Great Lightning Arrow"){
                 crit=true;
-                Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheGods>(), (int)(projectile.damage*0.75), 0, projectile.owner, 3);
+                Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), ModContent.ProjectileType<WrathoftheGods>(), (int)(projectile.damage*0.75), 0, projectile.owner, 3);
                 a.timeLeft = 10;
-                a.GetGlobalProjectile<GunGlobalProjectile>(mod).ignorespecialfeatures=true;
+                a.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
             }
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
         }

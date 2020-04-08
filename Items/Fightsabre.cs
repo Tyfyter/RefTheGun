@@ -11,6 +11,7 @@ using Microsoft.CSharp;
 using System.Text;
 using System.Reflection;
 using Terraria.Audio;
+using RefTheGun.Projectiles;
 
 namespace RefTheGun.Items
 {
@@ -53,13 +54,13 @@ An ancient weapon, composed entirely of hardened light.");
         public override bool CanUseItem(Player player){
             if(player.altFunctionUse == 2){
 				item.useAmmo = 0;
-				item.shoot = mod.ProjectileType("FightsabreSlash");
+				item.shoot = ModContent.ProjectileType<FightsabreSlash>();
 				item.useStyle = 1;
 				item.noUseGraphic = true;
             }else{
 				item.useAmmo = AmmoID.Bullet;
 				item.shoot = ProjectileID.GreenLaser;
-				if(Ammo<=0)item.shoot = mod.ProjectileType("FightsabreSlash");
+				if(Ammo<=0)item.shoot = ModContent.ProjectileType<FightsabreSlash>();
 				item.useStyle = 5;
 				item.noUseGraphic = false;
             }

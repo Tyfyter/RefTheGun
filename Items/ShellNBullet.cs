@@ -58,16 +58,16 @@ Maybe I should stop with the puns.");
 			Ammo = MaxAmmo-1;
 		}
         public override void HoldItem(Player player){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			modPlayer.roundsinmag = ammos[0];
 			modPlayer.magsize = maxAmmos[0];
 			modPlayer.guninfo = ammos[1]+"/"+maxAmmos[1];
-            if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
+            if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded){
                 //ReloadFinishHook(player, Ammo);
                 restoredefaults();
                 Ammo = MaxAmmo;
                 ammos = (int[])maxAmmos.Clone();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = player.HasBuff(mod.BuffType<ReloadBuff>());
+                Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded = player.HasBuff(ModContent.BuffType<ReloadBuff>());
             }
         }
 
@@ -77,10 +77,10 @@ Maybe I should stop with the puns.");
 		
         public override bool CanUseItem(Player player){
             if(player.altFunctionUse == 2){
-                if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading)return false;
+                if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading)return false;
                 if(ammos[0] >= maxAmmos[0] && ammos[1] >= maxAmmos[1])return false;
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading = true;
-                int proj = Projectile.NewProjectile(player.Center, new Vector2(), mod.ProjectileType("ReloadProj"), 0, 0, player.whoAmI, (int)(ReloadTimeMax*reloadmult), player.selectedItem);
+                Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading = true;
+                int proj = Projectile.NewProjectile(player.Center, new Vector2(), ModContent.ProjectileType<ReloadProj>(), 0, 0, player.whoAmI, (int)(ReloadTimeMax*reloadmult), player.selectedItem);
                 Main.projectile[proj].timeLeft = Math.Max((int)(ReloadTimeMax*reloadmult),2);
                 item.UseSound = new LegacySoundStyle(-1, -1);
                 item.useAmmo = 0;
@@ -91,7 +91,7 @@ Maybe I should stop with the puns.");
                 restoredefaults();
 				item.useStyle = 5;
 				item.noUseGraphic = true;
-                return !Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloading;
+                return !Main.player[item.owner].GetModPlayer<GunPlayer>().Reloading;
             }
         }
 		public override void UpdateInventory(Player player){
@@ -135,10 +135,10 @@ Maybe I should stop with the puns.");
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
             if(player.altFunctionUse == 2)return false;
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			bullettype = type;
             if(useTimes[0]==0&&ammos[0]>0){
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(0.5), mod.ProjectileType<GunProj>(), damage, knockBack, item.owner);
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(0.5), ModContent.ProjectileType<GunProj>(), damage, knockBack, item.owner);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
                 Main.projectile[proj].localNPCHitCooldown = 3;
@@ -154,7 +154,7 @@ Maybe I should stop with the puns.");
                 List<int> projs = new List<int>();
                 for (int i = 0; i < 3; i++)
                 {
-                    int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(1/3), mod.ProjectileType<ShotgunProj>(), damage, knockBack, item.owner);
+                    int proj = Projectile.NewProjectile(position, new Vector2(speedX,speedY).RotatedByRandom(1/3), ModContent.ProjectileType<ShotgunProj>(), damage, knockBack, item.owner);
                     Main.projectile[proj].friendly = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 3;
@@ -170,7 +170,7 @@ Maybe I should stop with the puns.");
             }
             return false;
 			/*bullettype = type;
-			type = mod.ProjectileType<ShotgunProj>();
+			type = ModContent.ProjectileType<ShotgunProj>();
 			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);*/
 		}
 	}

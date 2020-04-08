@@ -12,6 +12,7 @@ using System.Text;
 using System.Reflection;
 using Terraria.Audio;
 using RefTheGun.Projectiles;
+using RefTheGun.Buffs;
 
 namespace RefTheGun.Items
 {
@@ -60,7 +61,7 @@ namespace RefTheGun.Items
 		}
 
 		public override void HoldItem(Player player){
-			player.GetModPlayer<GunPlayer>(mod).guninfo = Spells[spell];
+			player.GetModPlayer<GunPlayer>().guninfo = Spells[spell];
 			base.HoldItem(player);
 		}
 		
@@ -147,7 +148,7 @@ namespace RefTheGun.Items
 			if(projectile.Name=="Forbidden Sun"){
 				Projectile a = Projectile.NewProjectileDirect(projectile.position, new Vector2(), ProjectileID.MolotovCocktail, projectile.damage, 0, projectile.owner);
 				a.timeLeft=1;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = false;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().effectonhit = false;
 				projectile.Kill();
 			}else if(projectile.Name=="Bursting Fireball"){
 				for (int i = 0; i < Main.rand.Next(5,7); i++)
@@ -160,7 +161,7 @@ namespace RefTheGun.Items
 			}
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			//damage += (int)(SpellDamage[spell]*player.magicDamage);
 			damage = (int)(damage*SpellDamage[spell]);
             if(player.altFunctionUse == 2)return false;
@@ -172,13 +173,13 @@ namespace RefTheGun.Items
 				speedX*= 1.5f;
 				speedY*= 1.5f;
 			}else if(Spells[spell]=="Combustion"){
-				type = mod.ProjectileType<Combustion>();
+				type = ModContent.ProjectileType<Combustion>();
 				rot = (float)Math.Atan2((double)speedY, (double)speedX) + 1.57f; 
 				knockBack=0;
 				speedX/= 4;
 				speedY/= 4;
 			}else if(Spells[spell]=="Great Combustion"){
-				type = mod.ProjectileType<GreatCombustion>();
+				type = ModContent.ProjectileType<GreatCombustion>();
 				rot  = (float)Math.Atan2((double)speedY, (double)speedX) + 1.57f; 
 				knockBack=0;
 				speedX/= 5;
@@ -197,8 +198,8 @@ namespace RefTheGun.Items
 					Main.projectile[a].timeLeft/=60;
 					Main.projectile[a].tileCollide=false;
 					Main.projectile[a].Name="Black Flame";
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).OverrideColor = true;
-					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>(mod).Color = new Color(255,215,50);
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().OverrideColor = true;
+					Main.projectile[a].GetGlobalProjectile<GunGlobalProjectile>().Color = new Color(255,215,50);
 					if(storefiredshots)firedshots.Add(a);
             		PostShoot(a);
 				}
@@ -212,17 +213,17 @@ namespace RefTheGun.Items
 				speedY = 0;
 				position=Main.MouseWorld;
 				knockBack = 0;
-				type=mod.ProjectileType<ToxinCloud>();
+				type=ModContent.ProjectileType<ToxinCloud>();
 			}else if(Spells[spell]=="Acid Mist"){
 				speedX = 0;
 				speedY = 0;
 				position=Main.MouseWorld;
 				knockBack = 0;
-				type=mod.ProjectileType<AcidCloud>();
+				type=ModContent.ProjectileType<AcidCloud>();
 			}else if(Spells[spell]=="Power Within"){
                 Ammo--;
 			    modPlayer.roundsinmag = Ammo;
-				player.AddBuff(mod.BuffType("PowerWithin"), 6000);
+				player.AddBuff(ModContent.BuffType<PowerWithin>(), 6000);
 				player.altFunctionUse = 2;
 				CanUseItem(player);
 				return false;
@@ -251,19 +252,19 @@ namespace RefTheGun.Items
 					Main.projectile[proj].Center = player.MountedCenter+(vel*4);
 				}	
 			}else if(Spells[spell]=="Bursting Fireball"){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).render = false;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).bounce = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).destroyonbounce = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().render = false;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().bounce = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().destroyonbounce = true;
 				Main.projectile[proj].Name = "Bursting Fireball";
 				Main.projectile[proj].timeLeft = Main.projectile[proj].timeLeft/120;
             	Main.projectile[proj].usesLocalNPCImmunity = true;
             	Main.projectile[proj].localNPCHitCooldown = 0;
 			}else if(Spells[spell]=="Forbidden Sun"){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).render = false;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().render = false;
 				Main.projectile[proj].Name = "Forbidden Sun";
 				Main.projectile[proj].scale+=1;
 				Main.projectile[proj].timeLeft = Main.projectile[proj].timeLeft/20;
@@ -272,8 +273,8 @@ namespace RefTheGun.Items
                 firedshots.Add(proj);
             }
             if(TrackHitEnemies){
-                Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).TrackHitEnemies = true;
-                Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
+                Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().TrackHitEnemies = true;
+                Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = (RefTheItem)item.modItem;
             }*/
             Ammo--;
 			//modPlayer.roundsinmag = Ammo;

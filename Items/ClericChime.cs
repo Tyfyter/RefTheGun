@@ -63,7 +63,7 @@ namespace RefTheGun.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.GoldBar, 5);
-			recipe.AddIngredient(mod.ItemType<LittleBell>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<LittleBell>(), 4);
 			recipe.AddTile(TileID.Furnaces);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
@@ -72,7 +72,7 @@ namespace RefTheGun.Items
 		/* 
 
 		public override void HoldItem(Player player){
-			player.GetModPlayer<GunPlayer>(mod).guninfo = Spells[spell];
+			player.GetModPlayer<GunPlayer>().guninfo = Spells[spell];
 			base.HoldItem(player);
 		}
 		
@@ -86,10 +86,10 @@ namespace RefTheGun.Items
 				item.useStyle = 5;
 				item.channel = false;
 				if(Spells[spell]=="Way of White Corona"){
-					player.GetModPlayer<GunPlayer>(mod).magsize=-2;
+					player.GetModPlayer<GunPlayer>().magsize=-2;
 					for(int i = 0; i < Main.projectile.Length; i++){
 						if(Main.projectile[i].owner == player.whoAmI && Main.projectile[i].Name=="Way of White Corona" && Main.projectile[i].active){
-							player.GetModPlayer<GunPlayer>(mod).magsize=-1;
+							player.GetModPlayer<GunPlayer>().magsize=-1;
 							return false;
 						}
 					}
@@ -119,8 +119,8 @@ namespace RefTheGun.Items
             if(projectile.Name=="Way of White Corona"){
 				projectile.ai[0] = 0;
 				projectile.velocity = projectile.oldVelocity;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).timesincestop=60;
-				projectile.GetGlobalProjectile<GunGlobalProjectile>(mod).stopping=2;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().timesincestop=60;
+				projectile.GetGlobalProjectile<GunGlobalProjectile>().stopping=2;
 			}else if(projectile.Name=="Soul Geyser"){
 				for (int i = 0; i < 4; i++)
 				{
@@ -132,7 +132,7 @@ namespace RefTheGun.Items
 			}
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			damage = (int)(damage*SpellDamage[spell]);
             if(player.altFunctionUse == 2)return false;
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
@@ -147,14 +147,14 @@ namespace RefTheGun.Items
 			if(Spells[spell].Contains("Spear")){
 				type = ProjectileID.JavelinFriendly;
 			}else if(Spells[spell]=="Lightning Arrow"){
-				type=mod.ProjectileType<SoulArrow>();
+				type=ModContent.ProjectileType<SoulArrow>();
 				position+=new Vector2(speedX, speedY).Normalized().RotatedBy(90*player.direction)*3;
 			}else if(Spells[spell]=="Way of White Corona"){
 				type=ProjectileID.LightDisc;
 				speedX*=1.5f;
 				speedY*=1.5f;
 			}else if(Spells[spell].Contains("Wrath of the Gods")){
-				type=mod.ProjectileType<SoulArrow>();
+				type=ModContent.ProjectileType<SoulArrow>();
 				position = player.Center;
 				speedX=0;
 				speedY=0;
@@ -186,8 +186,8 @@ namespace RefTheGun.Items
             Spread = Math.Min(Spread+BloomPerShot, MaxSpread);
 			if(type==ProjectileID.BallofFire)Main.projectile[proj].ai[0] = 4;
 			if(Spells[spell].Contains("Way of White Corona")){
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = this;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+				Main.projectile[proj].GetGlobalProjectile<GunGlobalProjectile>().firedwith = this;
 				Main.projectile[proj].extraUpdates++;
 			}
             if(MaxAmmo>0)Ammo--;

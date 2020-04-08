@@ -44,8 +44,10 @@ namespace RefTheGun.Items
             if(player.velocity.Length()==0)return;
             if(time++*(player.velocity.Length())>=260){
                 int damage = item.damage;
-                GetWeaponDamage(player, ref damage);
-                Projectile a = Projectile.NewProjectileDirect(player.Center, new Vector2(), mod.ProjectileType<WrathoftheGods>(), damage, 0, item.owner, 3, 46);
+                float add = 0,mult = 1,flat = 0;
+                ModifyWeaponDamage(player, ref add, ref mult, ref flat);
+                damage = (int)((damage+add)*mult+flat);
+                Projectile a = Projectile.NewProjectileDirect(player.Center, new Vector2(), ModContent.ProjectileType<WrathoftheGods>(), damage, 0, item.owner, 3, 46);
                 a.timeLeft = 8;
                 a.GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures=true;
                 Main.PlaySound(new LegacySoundStyle(2, 35).WithVolume(0.1f).WithPitchVariance(0.1f), player.Center);

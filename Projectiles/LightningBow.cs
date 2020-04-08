@@ -39,7 +39,7 @@ namespace RefTheGun.Projectiles
             projectile.Center = player.MountedCenter+new Vector2(0,-16).RotatedBy(-(new Vector2((player.Center - Main.MouseWorld).Y, (player.Center - Main.MouseWorld).X).ToRotation()))-new Vector2(9*player.direction,0);
             projectile.velocity = projectile.velocity.Normalized()/10;
             if(!player.channel){
-                Projectile proj = Projectile.NewProjectileDirect(projectile.Center, new Vector2(17.5f, 0).RotatedBy(projectile.rotation+MathHelper.ToRadians(1f)), mod.ProjectileType<SoulArrow>(), (int)(projectile.damage*((((float)chargephase)/5)+1)), projectile.knockBack, projectile.owner);
+                Projectile proj = Projectile.NewProjectileDirect(projectile.Center, new Vector2(17.5f, 0).RotatedBy(projectile.rotation+MathHelper.ToRadians(1f)), ModContent.ProjectileType<SoulArrow>(), (int)(projectile.damage*((((float)chargephase)/5)+1)), projectile.knockBack, projectile.owner);
                 proj.Name = chargephase>9?"Great Lightning Arrow":"Lightning Arrow";
                 if(chargephase>9)proj.penetrate=-1;
                 proj.extraUpdates+=(int)(((float)chargephase)/5);

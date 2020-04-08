@@ -63,7 +63,7 @@ namespace RefTheGun.Projectiles
             if(projectile.timeLeft%2==0)if(++projectile.frame-start==4){
             }else if(projectile.frame-start==8){
                 modPlayer.channelsword = 5;
-                int b = Projectile.NewProjectile(projectile.Center-new Vector2(25), new Vector2(), mod.ProjectileType<HeresySword>(), projectile.damage, 0, projectile.owner);
+                int b = Projectile.NewProjectile(projectile.Center-new Vector2(25), new Vector2(), ModContent.ProjectileType<HeresySword>(), projectile.damage, 0, projectile.owner);
                 if(player.velocity.Y==0)Main.projectile[b].GetGlobalProjectile<GunGlobalProjectile>().ignorespecialfeatures = true;
                 projectile.Kill();
             }

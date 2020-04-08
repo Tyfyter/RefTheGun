@@ -42,7 +42,7 @@ namespace RefTheGun.Items
 			item.knockBack = 6;
 			item.value = 5000;
 			item.rare = ItemRarityID.Blue;
-			item.shoot = mod.ProjectileType<HexDaggerProj>();
+			item.shoot = ModContent.ProjectileType<HexDaggerProj>();
 			item.shootSpeed = 12.5f;
 			item.useAmmo = 0;
 			item.UseSound = useSound;
@@ -77,19 +77,19 @@ namespace RefTheGun.Items
 			return base.CanUseItem(player);
         }
         public override void HoldItem(Player player){
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
 			modPlayer.roundsinmag = Ammo;
-			modPlayer.magsize = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>(mod).MagMultiply)*/;
+			modPlayer.magsize = /*(int)(*/MaxAmmo/**Main.player[item.owner].GetModPlayer<GunPlayer>().MagMultiply)*/;
 			if(timesincereload<10)timesincereload++;
-            if(Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded){
+            if(Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded){
                 ReloadFinishHook(player, Ammo);
                 restoredefaults();
-                Main.player[item.owner].GetModPlayer<GunPlayer>(mod).Reloaded = false;
+                Main.player[item.owner].GetModPlayer<GunPlayer>().Reloaded = false;
             }
         }
 		public override void ReloadFinishHook(Player player, int ammoleft){
 			foreach (int p in firedshots){
-				if(Main.projectile[p].type==mod.ProjectileType<HexDaggerProj>())((HexDaggerProj)Main.projectile[p].modProjectile).PreKill(Main.projectile[p].timeLeft);
+				if(Main.projectile[p].type==ModContent.ProjectileType<HexDaggerProj>())((HexDaggerProj)Main.projectile[p].modProjectile).PreKill(Main.projectile[p].timeLeft);
 			}
 			firedshots.Clear();
 			timesincereload = 0;

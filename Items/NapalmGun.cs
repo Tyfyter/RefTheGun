@@ -82,7 +82,7 @@ namespace RefTheGun.Items
 			recipe.AddRecipe();
 		}
 		public override void OnHitEffect(Projectile projectile){
-			Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), mod.ProjectileType<WrathoftheTitans>(), (int)(projectile.damage/1.5), 0, projectile.owner, ai1:(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3);
+			Projectile a = Projectile.NewProjectileDirect(projectile.Center, new Vector2(), ModContent.ProjectileType<WrathoftheTitans>(), (int)(projectile.damage/1.5), 0, projectile.owner, ai1:(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3);
 			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[0]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?2:3;
 			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[1]=(projectile.type==ProjectileID.RocketI||projectile.type==ProjectileID.RocketII)?1:1.5f;
 			//a.GetGlobalProjectile<GunGlobalProjectile>().aioverflow[2]=DustID.AmberBolt;
@@ -106,8 +106,8 @@ namespace RefTheGun.Items
 		}
 		public override void PostShoot(int p){
             Main.projectile[p].usesLocalNPCImmunity = true;
-            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).effectonhit = true;
-            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
+            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>().effectonhit = true;
+            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>().firedwith = (RefTheItem)item.modItem;
 		}
 	}
 }

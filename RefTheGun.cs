@@ -53,10 +53,8 @@ namespace RefTheGun
 		}
 		public override void PostDrawInterface(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch){
             Player player = Main.player[Main.myPlayer];
-			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
-            if(player.HeldItem.modItem == null){
-                return;
-            }else if(player.HeldItem.modItem.mod!=mod){
+			GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
+            if(player.HeldItem.modItem as RefTheItem == null){
                 return;
             }else if(!((RefTheItem)player.HeldItem.modItem).isGun){
 				return;

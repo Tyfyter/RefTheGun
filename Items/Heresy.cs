@@ -28,7 +28,7 @@ namespace RefTheGun.Items
 			item.value = 10000;
 			item.rare = 2;
             item.useStyle = 5;
-            item.shoot = mod.ProjectileType<HeresySword>();
+            item.shoot = ModContent.ProjectileType<HeresySword>();
             item.shootSpeed = 1f;
             item.autoReuse = true;
             reloadwhenfull = true;
@@ -50,7 +50,7 @@ namespace RefTheGun.Items
 
         public override void HoldStyle(Player player)
         {
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             if ((!(player.velocity.Y > 0)) || player.sliding)
             {
                 int dust3 = Dust.NewDust(player.Center, 0, 0, 90, 0f, 0f, 25, Color.Goldenrod, 0.5f);
@@ -76,23 +76,23 @@ namespace RefTheGun.Items
         }
         public override bool CanRightClick(){
             Player player = Main.player[item.owner];
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             return !modPlayer.Heresy&&!(firedshots.Count>0);
         }
         public override void PostShoot(int p){
-            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>(mod).firedwith = (RefTheItem)item.modItem;
+            Main.projectile[p].GetGlobalProjectile<GunGlobalProjectile>().firedwith = (RefTheItem)item.modItem;
         }
         public override void OnHitEffect(Projectile projectile){
             Main.PlaySound(SoundID.DD2_GoblinBomb, projectile.Center);
             foreach (NPC t in hitenemies){
-                ((GunGlobalNPC)t.GetGlobalNPC<GunGlobalNPC>()).DMGBuffs.Add(new float[]{1.05f,20,7,mod.ProjectileType<HeresySword>()});
+                ((GunGlobalNPC)t.GetGlobalNPC<GunGlobalNPC>()).DMGBuffs.Add(new float[]{1.05f,20,7,ModContent.ProjectileType<HeresySword>()});
             }
             hitenemies.Clear();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
-            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>(mod);
+            GunPlayer modPlayer = player.GetModPlayer<GunPlayer>();
             if(player.altFunctionUse==2&&!modPlayer.Heresy){
-                PostShoot(Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType<HeresyAlt>(), damage, knockBack, player.whoAmI));
+                PostShoot(Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HeresyAlt>(), damage, knockBack, player.whoAmI));
                 return false;
             }
             if(!modPlayer.Heresy&&!(firedshots.Count>0)){

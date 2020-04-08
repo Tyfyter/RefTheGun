@@ -85,7 +85,7 @@ namespace RefTheGun.Items
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			if(player.altFunctionUse==2||player.GetModPlayer<GunPlayer>().Reloading)return false;
-            /*if(player.GetModPlayer<GunPlayer>().bulletPoisonChance>0&&!firedshots.Exists(hasActiveDraw))*/firedshots.Add(Projectile.NewProjectile(position, new Vector2(), mod.ProjectileType<DrawNailgun>(), damage, knockBack, item.owner));
+            /*if(player.GetModPlayer<GunPlayer>().bulletPoisonChance>0&&!firedshots.Exists(hasActiveDraw))*/firedshots.Add(Projectile.NewProjectile(position, new Vector2(), ModContent.ProjectileType<DrawNailgun>(), damage, knockBack, item.owner));
 			if(player.itemAnimation==item.useAnimation-1){
 				type = ProjectileID.NailFriendly;
 				Main.PlaySound(useSound, position);
@@ -109,7 +109,7 @@ namespace RefTheGun.Items
 			return false;
 		}
 		public bool hasActiveDraw(int i){
-			if(Main.projectile[i].type==mod.ProjectileType<DrawNailgun>()&&Main.projectile[i].active)return true;
+			if(Main.projectile[i].type==ModContent.ProjectileType<DrawNailgun>()&&Main.projectile[i].active)return true;
 			return false;
 		}
 	}
