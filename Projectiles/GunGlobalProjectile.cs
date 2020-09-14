@@ -181,7 +181,7 @@ namespace RefTheGun.Projectiles
                     a.velocity = new Vector2();
                     //*/
                     //*
-                    Dust a = Dust.NewDustDirect(projectile.Center+new Vector2(0,projectile.height).RotatedBy(((Main.time%21)*2)+(21*i)), 0, 0, 134);
+                    Dust a = Dust.NewDustDirect(projectile.Center+new Vector2(0,projectile.height).RotatedBy(((Main.GameUpdateCount%21)*2)+(21*i)), 0, 0, 134);
                     a.velocity/=2;
                     //*/
                 }

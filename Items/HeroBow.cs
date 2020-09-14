@@ -221,7 +221,7 @@ namespace RefTheGun.Items{
 							Main.dust[a].noGravity = true;
 							Main.dust[a].noLight = true;
 						}
-					}else if(Main.time%12<=1){
+					}else if(Main.GameUpdateCount%12<=1){
 						int a = Dust.NewDust(position+new Vector2(speedX,speedY), 0, 0, DustID.GoldFlame);
 						Main.dust[a].noGravity = true;
 						Main.dust[a].noLight = true;

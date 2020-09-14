@@ -40,8 +40,8 @@ namespace RefTheGun.Items
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useTurn = true;
-			item.width = 40;
-			item.height = 40;
+			item.width = 20;
+			item.height = 20;
 			item.useTime = 15;
 			item.useAnimation = 15;
 			item.useStyle = 5;

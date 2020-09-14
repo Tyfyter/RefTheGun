@@ -126,7 +126,7 @@ namespace RefTheGun.Items
 							int a = Dust.NewDust(position-new Vector2(speedX,speedY), 0, 0, 92);
 							Main.dust[a].noGravity = true;
 						}
-					}else if(Main.time%12<=1){
+					}else if(Main.GameUpdateCount%12<=1){
 						int a = Dust.NewDust(position-new Vector2(speedX,speedY), 0, 0, 92);
 						Main.dust[a].noGravity = true;
 					}
