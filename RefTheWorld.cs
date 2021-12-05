@@ -29,7 +29,7 @@ namespace RefTheGun
 			for (int chestIndex = 0; chestIndex < Main.chest.Length; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
-				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
+				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the nth chest is the ____ Chest. Since we are counting from 0, this is where n comes from. 36 comes from the width of each tile including padding. 
 				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 2 * 36)
 				{
 					for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)

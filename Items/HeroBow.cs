@@ -199,7 +199,7 @@ namespace RefTheGun.Items{
 			}
 		}
 		public override void GetWeaponDamage(Player player, ref int damage){
-			damage = (int)((damage*player.rangedDamage)*(1+((player.rangedDamage-1)*0.25f)));
+			damage = (int)((damage*player.rangedDamage)*(1+((player.magicDamage-1)*0.25f)));
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack){
 			if(player.altFunctionUse==2||player.GetModPlayer<GunPlayer>().Reloading)return false;
