@@ -41,7 +41,7 @@ namespace RefTheGun.Items
 			}
 		}
 		public override bool ammoPerMult(int i){
-			//if you have a better algorithim for spread mode please tell me
+			//if you have a better algorithm for spread mode please tell me
 			return mode!=1?false:i<Multishot-0.1f;
 		}
         public override void SetStaticDefaults()
